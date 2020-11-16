@@ -25,3 +25,11 @@ test('test runs', () => {
   }
   console.log(cp.execSync(`node ${ip}`, options).toString())
 })
+
+test('performs test runs with observatory-cli', () => {
+  console.log(
+    cp
+      .execSync(`npx observatory-cli trendygolf.com --format=report`, {})
+      .toString()
+  )
+})

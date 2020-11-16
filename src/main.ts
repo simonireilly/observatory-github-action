@@ -1,13 +1,14 @@
 import * as core from '@actions/core'
+import * as exec from '@actions/exec'
 import {wait} from './wait'
 
 async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
+    const webHost: string = core.getInput('web_host')
+    core.info(`Preparing Observatory check for ${webHost}`)
 
     core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
+    await exec.exec('npx observatory-cli', [webHost, '--format=report'])
     core.debug(new Date().toTimeString())
 
     core.setOutput('time', new Date().toTimeString())
