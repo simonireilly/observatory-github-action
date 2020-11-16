@@ -28,8 +28,6 @@ test('test runs', () => {
 
 test('performs test runs with observatory-cli', () => {
   console.log(
-    cp
-      .execSync(`npx observatory-cli trendygolf.com --format=report`, {})
-      .toString()
+    cp.execSync(`npx observatory-cli github.com --format=report`, {}).toString()
   )
 })
