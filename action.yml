@@ -4,8 +4,8 @@ author: 'Simon Reilly'
 inputs:
   web_host: # change this
     required: true
-    description: 'Host e.g.'
-    default: 'github.com/simonireilly/observatory-github-action'
+    description: 'Host e.g. example.com'
+    default: 'github.com'
 runs:
   using: 'node12'
   main: 'dist/index.js'

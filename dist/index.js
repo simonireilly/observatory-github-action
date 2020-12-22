@@ -40,20 +40,35 @@ const core = __importStar(__webpack_require__(186));
 const exec = __importStar(__webpack_require__(514));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
+        let myOutput = '';
+        let myError = '';
+        const options = {
+            listeners: {}
+        };
+        options.listeners = {
+            stdout: (data) => {
+                myOutput += data.toString();
+            },
+            stderr: (data) => {
+                myError += data.toString();
+            }
+        };
         try {
-            const webHost = core.getInput('web_host');
+            const webHost = core.getInput('web_host') || 'github.com';
             core.info(`Preparing Observatory check for ${webHost}`);
             core.debug(new Date().toTimeString());
-            yield exec.exec('npx observatory-cli', [webHost, '--format=report']);
+            yield exec.exec('npx', ['observatory-cli', webHost, '--format=report'], options);
             core.debug(new Date().toTimeString());
+            core.info(myOutput);
             core.setOutput('time', new Date().toTimeString());
         }
         catch (error) {
+            core.error(myError);
             core.setFailed(error.message);
         }
     });
 }
-run();
+exports.default = run;
 
 
 /***/ }),
