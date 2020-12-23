@@ -22,7 +22,7 @@ jobs:
       - name: Test Observatory
         uses: ./
         with:
-          web_host: 'https://shift-vercel-ts.vercel.app'
+          web_host: 'example.com'
         id: observatory
       - name: Create commit comment
         uses: peter-evans/commit-comment@v1
