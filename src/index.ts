@@ -67,11 +67,14 @@ export function jsonReportToMarkdown(jsonReport: JSONReport): string {
   }
 
   return `
-## Observatory Results
+### Observatory Results
+
+${score} of 100
+
+#### Breakdown
 
 Passed | Score | Description
 --- | --- | ---
 ${resultRows.join('\n')}
-**Total** | ${score}/100 |
   `
 }
