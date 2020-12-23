@@ -68,6 +68,12 @@ function run() {
         }
     });
 }
+try {
+    run();
+}
+catch (error) {
+    core.setFailed(error.message);
+}
 exports.default = run;
 
 
