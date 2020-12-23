@@ -3,7 +3,7 @@ require('./sourcemap-register.js');module.exports =
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 109:
+/***/ 822:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -36,45 +36,98 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.jsonReportToMarkdown = exports.runObservatory = exports.run = void 0;
 const core = __importStar(__webpack_require__(186));
 const exec = __importStar(__webpack_require__(514));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
-        let myOutput = '';
-        let myError = '';
+        const { result, error } = yield runObservatory();
+        if (error)
+            core.info(error);
+        core.info(result);
+        const resultObject = JSON.parse(result);
+        const markdown = jsonReportToMarkdown(resultObject);
+        core.setOutput('observatory-report', markdown);
+    });
+}
+exports.run = run;
+function runObservatory() {
+    return __awaiter(this, void 0, void 0, function* () {
+        let result = '';
+        let error = '';
         const options = {
             listeners: {}
         };
         options.listeners = {
             stdout: (data) => {
-                myOutput += data.toString();
+                result += data.toString();
             },
             stderr: (data) => {
-                myError += data.toString();
+                error += data.toString();
             }
         };
-        try {
-            const webHost = core.getInput('web_host') || 'github.com';
-            core.info(`Preparing Observatory check for ${webHost}`);
-            core.debug(new Date().toTimeString());
-            yield exec.exec('npx', ['observatory-cli', webHost, '--format=report'], options);
-            core.debug(new Date().toTimeString());
-            core.info(myOutput);
-            core.setOutput('observatory-report', myOutput);
-        }
-        catch (error) {
-            core.error(myError);
-            core.setFailed(error.message);
-        }
+        const webHost = core.getInput('web_host') || 'example.com';
+        yield exec.exec('npx', ['observatory-cli', webHost, '--format=json', '-z'], options);
+        return { result, error };
     });
 }
+exports.runObservatory = runObservatory;
+function jsonReportToMarkdown(jsonReport) {
+    const resultRows = [];
+    let score = 100;
+    // Get the keys
+    for (const key in jsonReport) {
+        const { score_modifier = '0', pass, score_description } = jsonReport[key];
+        score += parseInt(score_modifier);
+        resultRows.push(`${pass ? ':green_circle:' : ':red_circle:'} | ${score_modifier} | ${score_description}`);
+    }
+    return `
+## Observatory Results
+
+Passed | Score | Description
+--- | --- | ---
+${resultRows.join('\n')}
+**Total** | ${score} |
+  `;
+}
+exports.jsonReportToMarkdown = jsonReportToMarkdown;
+
+
+/***/ }),
+
+/***/ 109:
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const core = __importStar(__webpack_require__(186));
+const index_1 = __webpack_require__(822);
 try {
-    run();
+    const markdownString = index_1.run();
+    core.setOutput('observatory-report', markdownString);
 }
 catch (error) {
     core.setFailed(error.message);
 }
-exports.default = run;
 
 
 /***/ }),
