@@ -16,6 +16,7 @@ export async function run(): Promise<string> {
 
   const markdown = jsonReportToMarkdown(resultObject)
 
+  core.setOutput('observatory-report', markdown)
   return markdown
 }
 

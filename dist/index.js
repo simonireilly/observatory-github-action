@@ -47,6 +47,7 @@ function run() {
         core.info(result);
         const resultObject = JSON.parse(result);
         const markdown = jsonReportToMarkdown(resultObject);
+        core.setOutput('observatory-report', markdown);
         return markdown;
     });
 }
@@ -125,8 +126,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__webpack_require__(186));
 const index_1 = __webpack_require__(822);
 try {
-    const markdownString = index_1.run();
-    core.setOutput('observatory-report', markdownString);
+    index_1.run();
 }
 catch (error) {
     core.setFailed(error.message);
