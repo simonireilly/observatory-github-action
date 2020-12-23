@@ -22,7 +22,7 @@ jobs:
       - name: Test Observatory
         uses: ./
         with:
-          web_host: 'example.com'
+          web_host: 'github.com'
         id: observatory
       - name: Create commit comment
         uses: peter-evans/commit-comment@v1
