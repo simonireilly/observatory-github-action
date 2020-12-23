@@ -42,6 +42,7 @@ const exec = __importStar(__webpack_require__(514));
 const webHost = core.getInput('web_host') || 'github.com';
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
+        core.info(`Running on website: ${webHost}`);
         const { result, error } = yield runObservatory();
         if (error)
             core.info(error);
@@ -68,7 +69,7 @@ function runObservatory() {
                 error += data.toString();
             }
         };
-        yield exec.exec('npx', ['observatory-cli', webHost, '--format=json', '-z'], options);
+        yield exec.exec('npx', ['observatory-cli', webHost, '--format=json'], options);
         return { result, error };
     });
 }
@@ -83,11 +84,11 @@ function jsonReportToMarkdown(jsonReport) {
         resultRows.push(`${pass ? ':green_circle:' : ':red_circle:'} | ${score_modifier} | ${score_description}`);
     }
     return `
-### Observatory Results [${webHost}](${webHost})
+## Observatory Results [${webHost}](https://${webHost}): _${score} of 100_
 
-${score} of 100
+See the full report: https://observatory.mozilla.org/analyze/${webHost}
 
-#### Breakdown
+### Highlights
 
 Passed | Score | Description
 --- | --- | ---

@@ -8,6 +8,8 @@ type JSONReport = {
 const webHost: string = core.getInput('web_host') || 'github.com'
 
 export async function run(): Promise<string> {
+  core.info(`Running on website: ${webHost}`)
+
   const {result, error} = await runObservatory()
 
   if (error) core.info(error)
@@ -42,11 +44,7 @@ export async function runObservatory(): Promise<{
     }
   }
 
-  await exec.exec(
-    'npx',
-    ['observatory-cli', webHost, '--format=json', '-z'],
-    options
-  )
+  await exec.exec('npx', ['observatory-cli', webHost, '--format=json'], options)
 
   return {result, error}
 }
@@ -68,11 +66,11 @@ export function jsonReportToMarkdown(jsonReport: JSONReport): string {
   }
 
   return `
-### Observatory Results [${webHost}](${webHost})
+## Observatory Results [${webHost}](https://${webHost}): _${score} of 100_
 
-${score} of 100
+See the full report: https://observatory.mozilla.org/analyze/${webHost}
 
-#### Breakdown
+### Highlights
 
 Passed | Score | Description
 --- | --- | ---

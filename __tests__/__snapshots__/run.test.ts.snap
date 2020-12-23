@@ -2,11 +2,11 @@
 
 exports[`jsonReportToMarkdown Creates a table for the results 1`] = `
 "
-### Observatory Results [github.com](github.com)
+## Observatory Results [github.com](https://github.com): _0 of 100_
 
-0 of 100
+See the full report: https://observatory.mozilla.org/analyze/github.com
 
-#### Breakdown
+### Highlights
 
 Passed | Score | Description
 --- | --- | ---
@@ -27,134 +27,24 @@ Passed | Score | Description
 
 exports[`run returns a full comment from the observatory client 1`] = `
 "
-### Observatory Results [github.com](github.com)
+## Observatory Results [github.com](https://github.com): _125 of 100_
 
-125 of 100
+See the full report: https://observatory.mozilla.org/analyze/github.com
 
-#### Breakdown
+### Highlights
 
 Passed | Score | Description
 --- | --- | ---
-:green_circle: | 0 | Content Security Policy (CSP) implemented with unsafe sources inside style-src. This includes 'unsafe-inline', data: or overly broad sources such as https:.
-:green_circle: | 0 | Contribute.json isn't required on websites that don't belong to Mozilla
 :green_circle: | 5 | All cookies use the Secure flag, session cookies use the HttpOnly flag, and cross-origin restrictions are in place via the SameSite flag
-:green_circle: | 0 | Content is not visible via cross-origin resource sharing (CORS) files or headers
-:green_circle: | 0 | HTTP Public Key Pinning (HPKP) header not implemented
-:green_circle: | 0 | All hosts redirected to are in the HTTP Strict Transport Security (HSTS) preload list
 :green_circle: | 5 | Referrer-Policy header set to \\"no-referrer\\", \\"same-origin\\", \\"strict-origin\\" or \\"strict-origin-when-cross-origin\\"
 :green_circle: | 5 | Preloaded via the HTTP Strict Transport Security (HSTS) preloading process
 :green_circle: | 5 | Subresource Integrity (SRI) is implemented and all scripts are loaded securely
-:green_circle: | 0 | X-Content-Type-Options header set to \\"nosniff\\"
 :green_circle: | 5 | X-Frame-Options (XFO) implemented via the CSP frame-ancestors directive
-:green_circle: | 0 | X-XSS-Protection header set to \\"1; mode=block\\"
   "
 `;
 
 exports[`runObservatory returns a formatted JSON payload 1`] = `
 "{
-  \\"content-security-policy\\": {
-    \\"expectation\\": \\"csp-implemented-with-no-unsafe\\",
-    \\"name\\": \\"content-security-policy\\",
-    \\"output\\": {
-      \\"data\\": {
-        \\"base-uri\\": [
-          \\"'self'\\"
-        ],
-        \\"block-all-mixed-content\\": [
-          \\"'none'\\"
-        ],
-        \\"connect-src\\": [
-          \\"github-production-user-asset-6210df.s3.amazonaws.com\\",
-          \\"api.github.com\\",
-          \\"github-cloud.s3.amazonaws.com\\",
-          \\"logx.optimizely.com/v1/events\\",
-          \\"cdn.optimizely.com\\",
-          \\"wss://alive.github.com\\",
-          \\"github-production-repository-file-5c1aeb.s3.amazonaws.com\\",
-          \\"'self'\\",
-          \\"www.githubstatus.com\\",
-          \\"uploads.github.com\\",
-          \\"collector.githubapp.com\\",
-          \\"github-production-upload-manifest-file-7fdce7.s3.amazonaws.com\\"
-        ],
-        \\"default-src\\": [
-          \\"'none'\\"
-        ],
-        \\"font-src\\": [
-          \\"github.githubassets.com\\"
-        ],
-        \\"form-action\\": [
-          \\"gist.github.com\\",
-          \\"github.com\\",
-          \\"'self'\\"
-        ],
-        \\"frame-ancestors\\": [
-          \\"'none'\\"
-        ],
-        \\"frame-src\\": [
-          \\"render.githubusercontent.com\\"
-        ],
-        \\"img-src\\": [
-          \\"customer-stories-feed.github.com\\",
-          \\"github-cloud.s3.amazonaws.com\\",
-          \\"*.githubusercontent.com\\",
-          \\"github.githubassets.com\\",
-          \\"spotlights-feed.github.com\\",
-          \\"data:\\",
-          \\"identicons.github.com\\",
-          \\"'self'\\",
-          \\"collector.githubapp.com\\"
-        ],
-        \\"manifest-src\\": [
-          \\"'self'\\"
-        ],
-        \\"media-src\\": [
-          \\"github.githubassets.com\\"
-        ],
-        \\"script-src\\": [
-          \\"github.githubassets.com\\"
-        ],
-        \\"style-src\\": [
-          \\"github.githubassets.com\\",
-          \\"'unsafe-inline'\\"
-        ],
-        \\"worker-src\\": [
-          \\"github.com/socket-worker-5029ae85.js\\",
-          \\"gist.github.com/socket-worker-5029ae85.js\\"
-        ]
-      },
-      \\"http\\": true,
-      \\"meta\\": false,
-      \\"policy\\": {
-        \\"antiClickjacking\\": true,
-        \\"defaultNone\\": true,
-        \\"insecureBaseUri\\": false,
-        \\"insecureFormAction\\": false,
-        \\"insecureSchemeActive\\": false,
-        \\"insecureSchemePassive\\": false,
-        \\"strictDynamic\\": false,
-        \\"unsafeEval\\": false,
-        \\"unsafeInline\\": false,
-        \\"unsafeInlineStyle\\": true,
-        \\"unsafeObjects\\": false
-      }
-    },
-    \\"pass\\": true,
-    \\"result\\": \\"csp-implemented-with-unsafe-inline-in-style-src-only\\",
-    \\"score_description\\": \\"Content Security Policy (CSP) implemented with unsafe sources inside style-src. This includes 'unsafe-inline', data: or overly broad sources such as https:.\\",
-    \\"score_modifier\\": 0
-  },
-  \\"contribute\\": {
-    \\"expectation\\": \\"contribute-json-only-required-on-mozilla-properties\\",
-    \\"name\\": \\"contribute\\",
-    \\"output\\": {
-      \\"data\\": null
-    },
-    \\"pass\\": true,
-    \\"result\\": \\"contribute-json-only-required-on-mozilla-properties\\",
-    \\"score_description\\": \\"Contribute.json isn't required on websites that don't belong to Mozilla\\",
-    \\"score_modifier\\": 0
-  },
   \\"cookies\\": {
     \\"expectation\\": \\"cookies-secure-with-httponly-sessions\\",
     \\"name\\": \\"cookies\\",
@@ -197,53 +87,6 @@ exports[`runObservatory returns a formatted JSON payload 1`] = `
     \\"result\\": \\"cookies-secure-with-httponly-sessions-and-samesite\\",
     \\"score_description\\": \\"All cookies use the Secure flag, session cookies use the HttpOnly flag, and cross-origin restrictions are in place via the SameSite flag\\",
     \\"score_modifier\\": 5
-  },
-  \\"cross-origin-resource-sharing\\": {
-    \\"expectation\\": \\"cross-origin-resource-sharing-not-implemented\\",
-    \\"name\\": \\"cross-origin-resource-sharing\\",
-    \\"output\\": {
-      \\"data\\": {
-        \\"acao\\": null,
-        \\"clientaccesspolicy\\": null,
-        \\"crossdomain\\": null
-      }
-    },
-    \\"pass\\": true,
-    \\"result\\": \\"cross-origin-resource-sharing-not-implemented\\",
-    \\"score_description\\": \\"Content is not visible via cross-origin resource sharing (CORS) files or headers\\",
-    \\"score_modifier\\": 0
-  },
-  \\"public-key-pinning\\": {
-    \\"expectation\\": \\"hpkp-not-implemented\\",
-    \\"name\\": \\"public-key-pinning\\",
-    \\"output\\": {
-      \\"data\\": null,
-      \\"includeSubDomains\\": false,
-      \\"max-age\\": null,
-      \\"numPins\\": null,
-      \\"preloaded\\": false
-    },
-    \\"pass\\": true,
-    \\"result\\": \\"hpkp-not-implemented\\",
-    \\"score_description\\": \\"HTTP Public Key Pinning (HPKP) header not implemented\\",
-    \\"score_modifier\\": 0
-  },
-  \\"redirection\\": {
-    \\"expectation\\": \\"redirection-to-https\\",
-    \\"name\\": \\"redirection\\",
-    \\"output\\": {
-      \\"destination\\": \\"https://github.com/\\",
-      \\"redirects\\": true,
-      \\"route\\": [
-        \\"http://github.com/\\",
-        \\"https://github.com/\\"
-      ],
-      \\"status_code\\": 200
-    },
-    \\"pass\\": true,
-    \\"result\\": \\"redirection-all-redirects-preloaded\\",
-    \\"score_description\\": \\"All hosts redirected to are in the HTTP Strict Transport Security (HSTS) preload list\\",
-    \\"score_modifier\\": 0
   },
   \\"referrer-policy\\": {
     \\"expectation\\": \\"referrer-policy-private\\",
@@ -321,17 +164,6 @@ exports[`runObservatory returns a formatted JSON payload 1`] = `
     \\"score_description\\": \\"Subresource Integrity (SRI) is implemented and all scripts are loaded securely\\",
     \\"score_modifier\\": 5
   },
-  \\"x-content-type-options\\": {
-    \\"expectation\\": \\"x-content-type-options-nosniff\\",
-    \\"name\\": \\"x-content-type-options\\",
-    \\"output\\": {
-      \\"data\\": \\"nosniff\\"
-    },
-    \\"pass\\": true,
-    \\"result\\": \\"x-content-type-options-nosniff\\",
-    \\"score_description\\": \\"X-Content-Type-Options header set to \\\\\\"nosniff\\\\\\"\\",
-    \\"score_modifier\\": 0
-  },
   \\"x-frame-options\\": {
     \\"expectation\\": \\"x-frame-options-sameorigin-or-deny\\",
     \\"name\\": \\"x-frame-options\\",
@@ -342,17 +174,6 @@ exports[`runObservatory returns a formatted JSON payload 1`] = `
     \\"result\\": \\"x-frame-options-implemented-via-csp\\",
     \\"score_description\\": \\"X-Frame-Options (XFO) implemented via the CSP frame-ancestors directive\\",
     \\"score_modifier\\": 5
-  },
-  \\"x-xss-protection\\": {
-    \\"expectation\\": \\"x-xss-protection-1-mode-block\\",
-    \\"name\\": \\"x-xss-protection\\",
-    \\"output\\": {
-      \\"data\\": \\"1; mode=block\\"
-    },
-    \\"pass\\": true,
-    \\"result\\": \\"x-xss-protection-enabled-mode-block\\",
-    \\"score_description\\": \\"X-XSS-Protection header set to \\\\\\"1; mode=block\\\\\\"\\",
-    \\"score_modifier\\": 0
   }
 }
 "
