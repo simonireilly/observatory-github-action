@@ -5,6 +5,8 @@ type JSONReport = {
   [key: string]: {[key: string]: string}
 }
 
+const webHost: string = core.getInput('web_host') || 'github.com'
+
 export async function run(): Promise<string> {
   const {result, error} = await runObservatory()
 
@@ -40,8 +42,6 @@ export async function runObservatory(): Promise<{
     }
   }
 
-  const webHost: string = core.getInput('web_host') || 'github.com'
-
   await exec.exec(
     'npx',
     ['observatory-cli', webHost, '--format=json', '-z'],
@@ -68,7 +68,7 @@ export function jsonReportToMarkdown(jsonReport: JSONReport): string {
   }
 
   return `
-### Observatory Results
+### Observatory Results [${webHost}](${webHost})
 
 ${score} of 100
 

@@ -39,6 +39,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.jsonReportToMarkdown = exports.runObservatory = exports.run = void 0;
 const core = __importStar(__webpack_require__(186));
 const exec = __importStar(__webpack_require__(514));
+const webHost = core.getInput('web_host') || 'github.com';
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         const { result, error } = yield runObservatory();
@@ -67,7 +68,6 @@ function runObservatory() {
                 error += data.toString();
             }
         };
-        const webHost = core.getInput('web_host') || 'github.com';
         yield exec.exec('npx', ['observatory-cli', webHost, '--format=json', '-z'], options);
         return { result, error };
     });
@@ -83,7 +83,7 @@ function jsonReportToMarkdown(jsonReport) {
         resultRows.push(`${pass ? ':green_circle:' : ':red_circle:'} | ${score_modifier} | ${score_description}`);
     }
     return `
-### Observatory Results
+### Observatory Results [${webHost}](${webHost})
 
 ${score} of 100
 

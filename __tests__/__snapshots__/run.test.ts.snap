@@ -2,7 +2,7 @@
 
 exports[`jsonReportToMarkdown Creates a table for the results 1`] = `
 "
-### Observatory Results
+### Observatory Results [github.com](github.com)
 
 0 of 100
 
@@ -27,7 +27,7 @@ Passed | Score | Description
 
 exports[`run returns a full comment from the observatory client 1`] = `
 "
-### Observatory Results
+### Observatory Results [github.com](github.com)
 
 125 of 100
 
