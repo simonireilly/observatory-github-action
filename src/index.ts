@@ -39,7 +39,7 @@ export async function runObservatory(): Promise<{
     }
   }
 
-  const webHost: string = core.getInput('web_host') || 'example.com'
+  const webHost: string = core.getInput('web_host') || 'github.com'
 
   await exec.exec(
     'npx',
