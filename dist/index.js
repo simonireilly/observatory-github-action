@@ -47,7 +47,7 @@ function run() {
         core.info(result);
         const resultObject = JSON.parse(result);
         const markdown = jsonReportToMarkdown(resultObject);
-        core.setOutput('observatory-report', markdown);
+        return markdown;
     });
 }
 exports.run = run;
@@ -66,7 +66,7 @@ function runObservatory() {
                 error += data.toString();
             }
         };
-        const webHost = core.getInput('web_host') || 'example.com';
+        const webHost = core.getInput('web_host') || 'github.com';
         yield exec.exec('npx', ['observatory-cli', webHost, '--format=json', '-z'], options);
         return { result, error };
     });
@@ -82,12 +82,15 @@ function jsonReportToMarkdown(jsonReport) {
         resultRows.push(`${pass ? ':green_circle:' : ':red_circle:'} | ${score_modifier} | ${score_description}`);
     }
     return `
-## Observatory Results
+### Observatory Results
+
+${score} of 100
+
+#### Breakdown
 
 Passed | Score | Description
 --- | --- | ---
 ${resultRows.join('\n')}
-**Total** | ${score} |
   `;
 }
 exports.jsonReportToMarkdown = jsonReportToMarkdown;
