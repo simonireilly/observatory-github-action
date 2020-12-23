@@ -1,5 +1,7 @@
 import run from '../src/main'
 
+jest.setTimeout(10000)
+
 test('run 500 ms', async () => {
   const start = new Date()
   await run()
