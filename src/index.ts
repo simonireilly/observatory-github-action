@@ -5,7 +5,7 @@ type JSONReport = {
   [key: string]: {[key: string]: string}
 }
 
-export async function run(): Promise<void> {
+export async function run(): Promise<string> {
   const {result, error} = await runObservatory()
 
   if (error) core.info(error)
