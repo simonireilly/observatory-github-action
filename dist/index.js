@@ -60,7 +60,7 @@ function run() {
             yield exec.exec('npx', ['observatory-cli', webHost, '--format=report'], options);
             core.debug(new Date().toTimeString());
             core.info(myOutput);
-            core.setOutput('time', new Date().toTimeString());
+            core.setOutput('observatory-report', myOutput);
         }
         catch (error) {
             core.error(myError);
