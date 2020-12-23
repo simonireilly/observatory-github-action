@@ -20,3 +20,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./
+      - name: Create commit comment
+        uses: peter-evans/commit-comment@v1
+        with:
+          body: |
+            This is a multi-line test comment
+            - With GitHub **Markdown** :sparkles:
+            - Created by [commit-comment][1]
+
+            [1]: https://github.com/peter-evans/commit-comment
