@@ -1,5 +1,8 @@
-name: 'Mozilla Observatory Github Action'
+name: 'Observatory Github Action'
 description: 'Check security best practices of your preview deploys'
+branding:
+  icon: 'globe'
+  color: 'purple'
 author: 'Simon Reilly'
 inputs:
   web_host: # change this

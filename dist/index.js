@@ -47,7 +47,13 @@ function run() {
         if (error)
             core.info(error);
         core.info(result);
-        const resultObject = JSON.parse(result);
+        let resultObject;
+        if (typeof result === 'string') {
+            resultObject = JSON.parse(result);
+        }
+        else {
+            resultObject = result;
+        }
         const markdown = jsonReportToMarkdown(resultObject);
         core.setOutput('observatory-report', markdown);
         return markdown;

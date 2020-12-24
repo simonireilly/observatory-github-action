@@ -16,7 +16,12 @@ export async function run(): Promise<string> {
 
   core.info(result)
 
-  const resultObject = JSON.parse(result) as JSONReport
+  let resultObject: JSONReport
+  if (typeof result === 'string') {
+    resultObject = JSON.parse(result) as JSONReport
+  } else {
+    resultObject = result
+  }
 
   const markdown = jsonReportToMarkdown(resultObject)
 
