@@ -12,13 +12,19 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: |
-          npm install
+          yarn install
       - run: |
-          npm run all
+          yarn all
   test: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: ./
+      - name: Test Observatory
+        uses: ./
         with:
-          milliseconds: 1000
+          web_host: 'shift-vercel-ts.vercel.app'
+        id: observatory
+      - name: Create commit comment
+        uses: peter-evans/commit-comment@v1
+        with:
+          body: ${{ steps.observatory.outputs.observatory-report }}

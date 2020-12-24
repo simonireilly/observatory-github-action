@@ -1,0 +1,180 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`jsonReportToMarkdown Creates a table for the results 1`] = `
+"
+## Observatory Results [github.com](https://github.com): _0 of 100_
+
+See the full report: https://observatory.mozilla.org/analyze/github.com
+
+### Highlights
+
+Passed | Score | Description
+--- | --- | ---
+:red_circle: | -25 | Content Security Policy (CSP) header not implemented
+:green_circle: | 0 | Contribute.json isn't required on websites that don't belong to Mozilla
+:green_circle: | 0 | No cookies detected
+:green_circle: | 0 | Content is not visible via cross-origin resource sharing (CORS) files or headers
+:green_circle: | 0 | HTTP Public Key Pinning (HPKP) header not implemented
+:red_circle: | -20 | Does not redirect to an HTTPS site
+:green_circle: | 0 | Referrer-Policy header not implemented
+:red_circle: | -20 | HTTP Strict Transport Security (HSTS) header not implemented
+:green_circle: | 0 | Subresource Integrity (SRI) is not needed since site contains no script tags
+:red_circle: | -5 | X-Content-Type-Options header not implemented
+:red_circle: | -20 | X-Frame-Options (XFO) header not implemented
+:red_circle: | -10 | X-XSS-Protection header not implemented
+  "
+`;
+
+exports[`run returns a full comment from the observatory client 1`] = `
+"
+## Observatory Results [github.com](https://github.com): _125 of 100_
+
+See the full report: https://observatory.mozilla.org/analyze/github.com
+
+### Highlights
+
+Passed | Score | Description
+--- | --- | ---
+:green_circle: | 5 | All cookies use the Secure flag, session cookies use the HttpOnly flag, and cross-origin restrictions are in place via the SameSite flag
+:green_circle: | 5 | Referrer-Policy header set to \\"no-referrer\\", \\"same-origin\\", \\"strict-origin\\" or \\"strict-origin-when-cross-origin\\"
+:green_circle: | 5 | Preloaded via the HTTP Strict Transport Security (HSTS) preloading process
+:green_circle: | 5 | Subresource Integrity (SRI) is implemented and all scripts are loaded securely
+:green_circle: | 5 | X-Frame-Options (XFO) implemented via the CSP frame-ancestors directive
+  "
+`;
+
+exports[`runObservatory returns a formatted JSON payload 1`] = `
+"{
+  \\"cookies\\": {
+    \\"expectation\\": \\"cookies-secure-with-httponly-sessions\\",
+    \\"name\\": \\"cookies\\",
+    \\"output\\": {
+      \\"data\\": {
+        \\"_gh_sess\\": {
+          \\"domain\\": \\"github.com\\",
+          \\"expires\\": null,
+          \\"httponly\\": true,
+          \\"max-age\\": null,
+          \\"path\\": \\"/\\",
+          \\"port\\": null,
+          \\"samesite\\": \\"Lax\\",
+          \\"secure\\": true
+        },
+        \\"_octo\\": {
+          \\"domain\\": \\".github.com\\",
+          \\"expires\\": 1640266828,
+          \\"httponly\\": false,
+          \\"max-age\\": null,
+          \\"path\\": \\"/\\",
+          \\"port\\": null,
+          \\"samesite\\": \\"Lax\\",
+          \\"secure\\": true
+        },
+        \\"logged_in\\": {
+          \\"domain\\": \\".github.com\\",
+          \\"expires\\": 1640266828,
+          \\"httponly\\": true,
+          \\"max-age\\": null,
+          \\"path\\": \\"/\\",
+          \\"port\\": null,
+          \\"samesite\\": \\"Lax\\",
+          \\"secure\\": true
+        }
+      },
+      \\"sameSite\\": true
+    },
+    \\"pass\\": true,
+    \\"result\\": \\"cookies-secure-with-httponly-sessions-and-samesite\\",
+    \\"score_description\\": \\"All cookies use the Secure flag, session cookies use the HttpOnly flag, and cross-origin restrictions are in place via the SameSite flag\\",
+    \\"score_modifier\\": 5
+  },
+  \\"referrer-policy\\": {
+    \\"expectation\\": \\"referrer-policy-private\\",
+    \\"name\\": \\"referrer-policy\\",
+    \\"output\\": {
+      \\"data\\": \\"origin-when-cross-origin, strict-origin-when-cross-origin\\",
+      \\"http\\": true,
+      \\"meta\\": false
+    },
+    \\"pass\\": true,
+    \\"result\\": \\"referrer-policy-private\\",
+    \\"score_description\\": \\"Referrer-Policy header set to \\\\\\"no-referrer\\\\\\", \\\\\\"same-origin\\\\\\", \\\\\\"strict-origin\\\\\\" or \\\\\\"strict-origin-when-cross-origin\\\\\\"\\",
+    \\"score_modifier\\": 5
+  },
+  \\"strict-transport-security\\": {
+    \\"expectation\\": \\"hsts-implemented-max-age-at-least-six-months\\",
+    \\"name\\": \\"strict-transport-security\\",
+    \\"output\\": {
+      \\"data\\": \\"max-age=31536000; includeSubdomains; preload\\",
+      \\"includeSubDomains\\": true,
+      \\"max-age\\": 31536000,
+      \\"preload\\": true,
+      \\"preloaded\\": true
+    },
+    \\"pass\\": true,
+    \\"result\\": \\"hsts-preloaded\\",
+    \\"score_description\\": \\"Preloaded via the HTTP Strict Transport Security (HSTS) preloading process\\",
+    \\"score_modifier\\": 5
+  },
+  \\"subresource-integrity\\": {
+    \\"expectation\\": \\"sri-implemented-and-external-scripts-loaded-securely\\",
+    \\"name\\": \\"subresource-integrity\\",
+    \\"output\\": {
+      \\"data\\": {
+        \\"https://github.githubassets.com/assets/behaviors-824642a4.js\\": {
+          \\"crossorigin\\": \\"anonymous\\",
+          \\"integrity\\": \\"sha512-gkZCpFyYrX7ycwoeUW7Wyk7sg8OBhVVIA5gFuJfzX3jZcu1jiTPWWM749XEjX9pILro9F5+l+WUfz/MUpAwI0w==\\"
+        },
+        \\"https://github.githubassets.com/assets/chunk-frameworks-6dfde4f1.js\\": {
+          \\"crossorigin\\": \\"anonymous\\",
+          \\"integrity\\": \\"sha512-bf3k8Y60Hljk6JoJikJwUktgpWsNM3NEnNgmlScAD6u57WAUEgCSZh5BsU5ls8YxsL8cZUaKGHC5fsf143pfaw==\\"
+        },
+        \\"https://github.githubassets.com/assets/chunk-vendor-4d97ead9.js\\": {
+          \\"crossorigin\\": \\"anonymous\\",
+          \\"integrity\\": \\"sha512-TZfq2T+XE31Mcp17bGlABjjeQ/69IH2f/sBvS31c4Jua0e1O/NE+aVbQtItMM2GFlmeEm13p/zyyWGIx10jVKQ==\\"
+        },
+        \\"https://github.githubassets.com/assets/environment-f0adafbf.js\\": {
+          \\"crossorigin\\": \\"anonymous\\",
+          \\"integrity\\": \\"sha512-8K2vvwbW+6H27Nad5ydg8PA2/aMD/LKq+EiK9s0U0hhVZxCI2tWBsYk9beAtisRw2j+Or5k2/F+6dk02nmj/PA==\\"
+        },
+        \\"https://github.githubassets.com/assets/features-5d0ec104.js\\": {
+          \\"crossorigin\\": \\"anonymous\\",
+          \\"integrity\\": \\"sha512-XQ7BBIQKF+bAgaheKl7KNH34ik/T4ndXTF37yg4H4ojAZ02CXqxaG+kjwbfMiXRbzZNw8x8YkRIYeQYr5faYbA==\\"
+        },
+        \\"https://github.githubassets.com/assets/marketing-28b1ca73.js\\": {
+          \\"crossorigin\\": \\"anonymous\\",
+          \\"integrity\\": \\"sha512-KLHKc0eJEbmI24nM12O7c2ELsFsSxlYUP5gcuww2HQg/dskU6B9XzeFXzwPfgVrvtZLhXnq61JkD7IHlC+RYEg==\\"
+        },
+        \\"https://github.githubassets.com/assets/site-874e15eb.js\\": {
+          \\"crossorigin\\": \\"anonymous\\",
+          \\"integrity\\": \\"sha512-h04V63L89puz9DQJ2prtxxDmBXOh5NX4oqlgJtGYIFpUggs8sttjjxmbgTU4872MmCfeWsoCSXQPFn8lxjtGQA==\\"
+        },
+        \\"https://github.githubassets.com/assets/unsupported-a85b1284.js\\": {
+          \\"crossorigin\\": \\"anonymous\\",
+          \\"integrity\\": \\"sha512-qFsShJX3EkHdcQq11CLfRk444sM6/0OBXB8eTN3FZl70HSy6jUPI2M9H6/wNWDwOR+LLU/JE55Y2kl1CK1QioQ==\\"
+        },
+        \\"https://github.githubassets.com/assets/webgl-globe-89c68dda.js\\": {
+          \\"crossorigin\\": \\"anonymous\\",
+          \\"integrity\\": \\"sha512-icaN2toWhKufebiGwejYDV1K03YNiUqCf7wry+/ZYHlNwPpqo+F5w1LlNUTdCL4+ZA2Xx0mjNcOFaiLxiPd1pA==\\"
+        }
+      }
+    },
+    \\"pass\\": true,
+    \\"result\\": \\"sri-implemented-and-external-scripts-loaded-securely\\",
+    \\"score_description\\": \\"Subresource Integrity (SRI) is implemented and all scripts are loaded securely\\",
+    \\"score_modifier\\": 5
+  },
+  \\"x-frame-options\\": {
+    \\"expectation\\": \\"x-frame-options-sameorigin-or-deny\\",
+    \\"name\\": \\"x-frame-options\\",
+    \\"output\\": {
+      \\"data\\": \\"deny\\"
+    },
+    \\"pass\\": true,
+    \\"result\\": \\"x-frame-options-implemented-via-csp\\",
+    \\"score_description\\": \\"X-Frame-Options (XFO) implemented via the CSP frame-ancestors directive\\",
+    \\"score_modifier\\": 5
+  }
+}
+"
+`;
