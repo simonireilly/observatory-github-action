@@ -1,8 +1,8 @@
 {
-  "name": "typescript-action",
+  "name": "observatory-github-action",
   "version": "0.0.0",
   "private": true,
-  "description": "TypeScript template action",
+  "description": "Observatory CLI runner for github actions",
   "main": "lib/main.js",
   "scripts": {
     "observatory-cli": "observatory",
