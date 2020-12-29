@@ -68,6 +68,9 @@ export async function runObservatory(
     options
   )
 
+  core.debug(result)
+  core.debug(error)
+
   return { result, error }
 }
 
