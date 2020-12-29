@@ -15,14 +15,27 @@ jobs:
           yarn install
       - run: |
           yarn all
-  test: # make sure the action works on a clean machine without building
+  test-with-host: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Test Observatory
         uses: ./
         with:
-          web_host: 'shift-vercel-ts.vercel.app'
+          web_host: 'github.com'
+        id: observatory
+      - name: Create commit comment
+        uses: peter-evans/commit-comment@v1
+        with:
+          body: ${{ steps.observatory.outputs.observatory-report }}
+  test-with-url: # make sure the action works on a clean machine without building
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Test Observatory
+        uses: ./
+        with:
+          web_host: 'https://google.com'
         id: observatory
       - name: Create commit comment
         uses: peter-evans/commit-comment@v1

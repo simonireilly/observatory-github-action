@@ -1,13 +1,6 @@
-import {run, runObservatory, jsonReportToMarkdown} from '../src/index'
+import { run, runObservatory, jsonReportToMarkdown } from '../src/index'
 
 jest.setTimeout(10000)
-
-describe('runObservatory', () => {
-  it('returns a formatted JSON payload', async () => {
-    const {result, error} = await runObservatory()
-    expect(result).toMatchSnapshot()
-  })
-})
 
 describe('run', () => {
   it('returns a full comment from the observatory client', async () => {

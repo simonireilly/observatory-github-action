@@ -5,6 +5,7 @@
   "description": "TypeScript template action",
   "main": "lib/main.js",
   "scripts": {
+    "observatory-cli": "observatory",
     "build": "tsc --build",
     "format": "prettier --write **/*.ts",
     "format-check": "prettier --check **/*.ts",

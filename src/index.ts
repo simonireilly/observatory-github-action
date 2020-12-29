@@ -2,15 +2,24 @@ import * as core from '@actions/core'
 import * as exec from '@actions/exec'
 
 type JSONReport = {
-  [key: string]: {[key: string]: string}
+  [key: string]: { [key: string]: string }
 }
 
 const webHost: string = core.getInput('web_host') || 'github.com'
 
 export async function run(): Promise<string> {
-  core.info(`Running on website: ${webHost}`)
+  let sanitizedHostName = webHost
 
-  const {result, error} = await runObservatory()
+  try {
+    sanitizedHostName = new URL(webHost).host
+  } catch (e) {
+    core.warning('This is not a valid URL, trying as host name')
+    core.error(e)
+  }
+
+  core.info(`Running on website: ${sanitizedHostName}`)
+
+  const { result, error } = await runObservatory()
 
   if (error) core.info(error)
 
@@ -51,7 +60,7 @@ export async function runObservatory(): Promise<{
 
   await exec.exec('npx', ['observatory-cli', webHost, '--format=json'], options)
 
-  return {result, error}
+  return { result, error }
 }
 
 export function jsonReportToMarkdown(jsonReport: JSONReport): string {
@@ -60,12 +69,11 @@ export function jsonReportToMarkdown(jsonReport: JSONReport): string {
 
   // Get the keys
   for (const key in jsonReport) {
-    const {score_modifier = '0', pass, score_description} = jsonReport[key]
+    const { score_modifier = '0', pass, score_description } = jsonReport[key]
 
     score += parseInt(score_modifier)
     resultRows.push(
-      `${
-        pass ? ':green_circle:' : ':red_circle:'
+      `${pass ? ':green_circle:' : ':red_circle:'
       } | ${score_modifier} | ${score_description}`
     )
   }
