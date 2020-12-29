@@ -15,5 +15,5 @@ jobs:
       - name: Create commit comment
         uses: peter-evans/commit-comment@v1
         with:
-          body: ${{ steps.observatory.outputs.observatory-report }}
+          body: '# Deployment ${{ steps.observatory.outputs.observatory-report }}'
 
