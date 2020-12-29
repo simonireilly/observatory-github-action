@@ -23,7 +23,10 @@ export async function run(): Promise<string> {
 
   const { result, error } = await runObservatory(sanitizedHostName)
 
-  if (error) core.info(error)
+  if (error) {
+    core.info(error)
+    core.setFailed(error)
+  }
 
   core.info(result)
 
@@ -64,7 +67,7 @@ export async function runObservatory(
 
   await exec.exec(
     'npx',
-    ['observatory-cli', sanitizedHostName, '--format=json'],
+    ['observatory-cli', sanitizedHostName, '--format=json', '--attempts=30'],
     options
   )
 
