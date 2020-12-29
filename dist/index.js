@@ -49,22 +49,15 @@ function run() {
             sanitizedHostName = new URL(webHost()).host;
         }
         catch (e) {
-            core.warning('This is not a valid URL, trying as host name');
+            core.warning('This is not a valid URL, trying as given string');
             core.error(e);
         }
-        core.info(`Running on website: ${sanitizedHostName}`);
+        core.debug(`Running on website: ${sanitizedHostName}`);
         const { result, error } = yield runObservatory(sanitizedHostName);
         if (error)
-            core.info(error);
-        core.info(result);
-        let resultObject;
-        if (typeof result === 'string') {
-            resultObject = JSON.parse(result);
-        }
-        else {
-            resultObject = result;
-        }
-        const markdown = jsonReportToMarkdown(resultObject, sanitizedHostName);
+            core.debug(error);
+        core.debug(result);
+        const markdown = jsonReportToMarkdown(result, sanitizedHostName);
         core.setOutput('observatory-report', markdown);
         return markdown;
     });
@@ -85,17 +78,33 @@ function runObservatory(sanitizedHostName) {
                 error += data.toString();
             }
         };
-        yield exec.exec('npx', ['observatory-cli', sanitizedHostName, '--format=json'], options);
+        yield exec.exec('npx', ['observatory-cli', sanitizedHostName, '--format=json', '--attempts=30'], options);
+        core.info(result);
+        core.error(error);
         return { result, error };
     });
 }
 exports.runObservatory = runObservatory;
 function jsonReportToMarkdown(jsonReport, sanitizedHostName) {
+    let result;
+    if (typeof jsonReport === 'string') {
+        if (jsonReport.length > 0) {
+            const jsonStructure = jsonReport.slice(jsonReport.indexOf('{'));
+            result = JSON.parse(jsonStructure);
+        }
+        else {
+            core.setFailed('Result is empty');
+            return '';
+        }
+    }
+    else {
+        result = jsonReport;
+    }
     const resultRows = [];
     let score = 100;
     // Get the keys
-    for (const key in jsonReport) {
-        const { score_modifier = '0', pass, score_description } = jsonReport[key];
+    for (const key in result) {
+        const { score_modifier = '0', pass, score_description } = result[key];
         const success = Boolean(pass);
         score += parseInt(score_modifier);
         const icon = (showSuccessIcon) => showSuccessIcon ? ':green_circle:' : ':red_circle:';
