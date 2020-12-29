@@ -17,4 +17,4 @@ jobs:
         description: Add a comment to the pull request with the test results
         uses: peter-evans/commit-comment@v1
         with:
-          body: ${{ steps.observatory.outputs.observatory-report }}
+          body: '# Deployment Status\n\n${{ steps.observatory.outputs.observatory-report }}'
