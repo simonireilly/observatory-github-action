@@ -60,8 +60,13 @@ function run() {
         core.debug(result);
         let resultObject;
         if (typeof result === 'string') {
-            core.info(`Result String: ${result}`);
-            resultObject = JSON.parse(result);
+            if (result.length > 0) {
+                resultObject = JSON.parse(result);
+            }
+            else {
+                core.setFailed('JSON object is empty');
+                return '';
+            }
         }
         else {
             resultObject = result;

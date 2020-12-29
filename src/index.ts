@@ -25,6 +25,8 @@ export async function run(): Promise<string> {
 
   if (error) {
     core.debug(error)
+    core.setFailed(error)
+    return ''
   }
 
   core.debug(result)
@@ -34,7 +36,7 @@ export async function run(): Promise<string> {
     if (result.length > 0) {
       resultObject = JSON.parse(result) as JSONReport
     } else {
-      core.setFailed('JSON object is empty')
+      core.setFailed('Result is empty')
       return ''
     }
   } else {
