@@ -56,6 +56,8 @@ function run() {
         const { result, error } = yield runObservatory(sanitizedHostName);
         if (error) {
             core.debug(error);
+            core.setFailed(error);
+            return '';
         }
         core.debug(result);
         let resultObject;
@@ -64,7 +66,7 @@ function run() {
                 resultObject = JSON.parse(result);
             }
             else {
-                core.setFailed('JSON object is empty');
+                core.setFailed('Result is empty');
                 return '';
             }
         }

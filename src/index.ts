@@ -32,6 +32,7 @@ export async function run(): Promise<string> {
   core.debug(result)
 
   let resultObject: JSONReport
+
   if (typeof result === 'string') {
     if (result.length > 0) {
       resultObject = JSON.parse(result) as JSONReport
@@ -77,8 +78,8 @@ export async function runObservatory(
     options
   )
 
-  core.debug(result)
-  core.debug(error)
+  core.info(result)
+  core.error(error)
 
   return { result, error }
 }
