@@ -2,15 +2,26 @@ import * as core from '@actions/core'
 import * as exec from '@actions/exec'
 
 type JSONReport = {
-  [key: string]: {[key: string]: string}
+  [key: string]: { [key: string]: string }
 }
 
-const webHost: string = core.getInput('web_host') || 'github.com'
+const webHost = (): string => {
+  return core.getInput('web_host') || 'github.com'
+}
 
 export async function run(): Promise<string> {
-  core.info(`Running on website: ${webHost}`)
+  let sanitizedHostName = webHost()
 
-  const {result, error} = await runObservatory()
+  try {
+    sanitizedHostName = new URL(webHost()).host
+  } catch (e) {
+    core.warning('This is not a valid URL, trying as host name')
+    core.error(e)
+  }
+
+  core.info(`Running on website: ${sanitizedHostName}`)
+
+  const { result, error } = await runObservatory(sanitizedHostName)
 
   if (error) core.info(error)
 
@@ -23,13 +34,15 @@ export async function run(): Promise<string> {
     resultObject = result
   }
 
-  const markdown = jsonReportToMarkdown(resultObject)
+  const markdown = jsonReportToMarkdown(resultObject, sanitizedHostName)
 
   core.setOutput('observatory-report', markdown)
   return markdown
 }
 
-export async function runObservatory(): Promise<{
+export async function runObservatory(
+  sanitizedHostName: string
+): Promise<{
   result: string
   error?: string
 }> {
@@ -49,31 +62,40 @@ export async function runObservatory(): Promise<{
     }
   }
 
-  await exec.exec('npx', ['observatory-cli', webHost, '--format=json'], options)
+  await exec.exec(
+    'npx',
+    ['observatory-cli', sanitizedHostName, '--format=json'],
+    options
+  )
 
-  return {result, error}
+  return { result, error }
 }
 
-export function jsonReportToMarkdown(jsonReport: JSONReport): string {
+export function jsonReportToMarkdown(
+  jsonReport: JSONReport,
+  sanitizedHostName: string
+): string {
   const resultRows: string[] = []
   let score = 100
 
   // Get the keys
   for (const key in jsonReport) {
-    const {score_modifier = '0', pass, score_description} = jsonReport[key]
+    const { score_modifier = '0', pass, score_description } = jsonReport[key]
+    const success = Boolean(pass)
 
     score += parseInt(score_modifier)
-    resultRows.push(
-      `${
-        pass ? ':green_circle:' : ':red_circle:'
-      } | ${score_modifier} | ${score_description}`
-    )
+    const icon = (showSuccessIcon: boolean): string =>
+      showSuccessIcon ? ':green_circle:' : ':red_circle:'
+    const message = `${icon(
+      success
+    )} | ${score_modifier} | ${score_description}`
+    resultRows.push(message)
   }
 
   return `
-## Observatory Results [${webHost}](https://${webHost}): _${score} of 100_
+## Observatory Results [${sanitizedHostName}](https://${sanitizedHostName}): _${score} of 100_
 
-See the full report: https://observatory.mozilla.org/analyze/${webHost}
+See the full report: https://observatory.mozilla.org/analyze/${sanitizedHostName}
 
 ### Highlights
 

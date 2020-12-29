@@ -1,5 +1,5 @@
 import * as core from '@actions/core'
-import {run} from './index'
+import { run } from './index'
 
 try {
   run()
