@@ -56,7 +56,6 @@ function run() {
         const { result, error } = yield runObservatory(sanitizedHostName);
         if (error) {
             core.debug(error);
-            core.setFailed(error);
         }
         core.debug(result);
         let resultObject;

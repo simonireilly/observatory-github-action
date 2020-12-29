@@ -31,8 +31,12 @@ export async function run(): Promise<string> {
 
   let resultObject: JSONReport
   if (typeof result === 'string') {
-    core.info(`Result String: ${result}`)
-    resultObject = JSON.parse(result) as JSONReport
+    if (result.length > 0) {
+      resultObject = JSON.parse(result) as JSONReport
+    } else {
+      core.setFailed('JSON object is empty')
+      return ''
+    }
   } else {
     resultObject = result
   }
