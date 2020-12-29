@@ -1,4 +1,6 @@
 import { run, jsonReportToMarkdown } from '../src/index'
+import * as fs from 'fs'
+import * as path from 'path'
 
 jest.setTimeout(20000)
 
@@ -23,8 +25,15 @@ describe('run', () => {
 })
 
 describe('jsonReportToMarkdown', () => {
-  it('Creates a table for the results', () => {
+  it('Creates a table for the results with json', () => {
     const jsonReport = require('./fixtures/json-observatory-report.json')
+
+    const markdown = jsonReportToMarkdown(jsonReport, 'github.com')
+
+    expect(markdown).toMatchSnapshot()
+  })
+  it('Creates a table for the results with text', () => {
+    const jsonReport = fs.readFileSync(path.join(__dirname, './fixtures/json-observatory-report.txt'), 'utf8')
 
     const markdown = jsonReportToMarkdown(jsonReport, 'github.com')
 

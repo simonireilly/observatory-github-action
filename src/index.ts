@@ -23,28 +23,11 @@ export async function run(): Promise<string> {
 
   const { result, error } = await runObservatory(sanitizedHostName)
 
-  if (error) {
-    core.debug(error)
-    core.setFailed(error)
-    return ''
-  }
+  if (error) core.debug(error)
 
   core.debug(result)
 
-  let resultObject: JSONReport
-
-  if (typeof result === 'string') {
-    if (result.length > 0) {
-      resultObject = JSON.parse(result) as JSONReport
-    } else {
-      core.setFailed('Result is empty')
-      return ''
-    }
-  } else {
-    resultObject = result
-  }
-
-  const markdown = jsonReportToMarkdown(resultObject, sanitizedHostName)
+  const markdown = jsonReportToMarkdown(result, sanitizedHostName)
 
   core.setOutput('observatory-report', markdown)
   return markdown
@@ -85,15 +68,29 @@ export async function runObservatory(
 }
 
 export function jsonReportToMarkdown(
-  jsonReport: JSONReport,
+  jsonReport: JSONReport | string,
   sanitizedHostName: string
 ): string {
+  let result
+
+  if (typeof jsonReport === 'string') {
+    if (jsonReport.length > 0) {
+      const jsonStructure = jsonReport.slice(jsonReport.indexOf('{'))
+      result = JSON.parse(jsonStructure) as JSONReport
+    } else {
+      core.setFailed('Result is empty')
+      return ''
+    }
+  } else {
+    result = jsonReport
+  }
+
   const resultRows: string[] = []
   let score = 100
 
   // Get the keys
-  for (const key in jsonReport) {
-    const { score_modifier = '0', pass, score_description } = jsonReport[key]
+  for (const key in result) {
+    const { score_modifier = '0', pass, score_description } = result[key]
     const success = Boolean(pass)
 
     score += parseInt(score_modifier)
