@@ -74,8 +74,8 @@ export function jsonReportToMarkdown(
   let result
 
   if (typeof jsonReport === 'string') {
-    if (jsonReport.length > 0) {
-      const jsonStructure = jsonReport.slice(jsonReport.indexOf('{'))
+    const jsonStructure = jsonReport.slice(jsonReport.indexOf('{'))
+    if (jsonStructure.length > 0) {
       result = JSON.parse(jsonStructure) as JSONReport
     } else {
       core.setFailed('Result is empty')
