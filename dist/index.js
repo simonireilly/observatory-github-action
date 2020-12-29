@@ -78,7 +78,12 @@ function runObservatory(sanitizedHostName) {
                 error += data.toString();
             }
         };
-        yield exec.exec('npx', ['observatory-cli', sanitizedHostName, '--format=json', '--attempts=30'], options);
+        try {
+            yield exec.exec('npx', ['observatory-cli', sanitizedHostName, '--format=json', '--attempts=30'], options);
+        }
+        catch (e) {
+            core.setFailed(e.message);
+        }
         core.info(result);
         core.error(error);
         return { result, error };
