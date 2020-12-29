@@ -1,6 +1,6 @@
 import { run, jsonReportToMarkdown } from '../src/index'
 
-jest.setTimeout(10000)
+jest.setTimeout(20000)
 
 beforeEach(() => {
   process.env.WEB_HOST = 'github.com'
