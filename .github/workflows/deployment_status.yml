@@ -1,0 +1,22 @@
+name: 'deployment-status'
+description: GitHub integration will provide a unique target URL to run the cli against
+on:
+  deployment_status:
+
+jobs:
+  deployment_status:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Test Observatory
+        description: Run the Mozilla observatory tool against the preview URL of the deployment
+        uses: ./
+        with:
+          web_host: ${{ github.event.deployment_status['target_url'] }}
+        id: observatory
+      - name: Create commit comment
+        description: Add a comment to the pull request with the test results
+        uses: peter-evans/commit-comment@v1
+        with:
+          body: ${{ steps.observatory.outputs.observatory-report }}
+
