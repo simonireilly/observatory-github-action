@@ -49,7 +49,7 @@ function run() {
             sanitizedHostName = new URL(webHost()).host;
         }
         catch (e) {
-            core.warning('This is not a valid URL, trying as host name');
+            core.warning('This is not a valid URL, trying as given string');
             core.error(e);
         }
         core.info(`Running on website: ${sanitizedHostName}`);

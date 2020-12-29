@@ -15,7 +15,7 @@ export async function run(): Promise<string> {
   try {
     sanitizedHostName = new URL(webHost()).host
   } catch (e) {
-    core.warning('This is not a valid URL, trying as host name')
+    core.warning('This is not a valid URL, trying as given string')
     core.error(e)
   }
 
