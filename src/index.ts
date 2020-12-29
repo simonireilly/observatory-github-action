@@ -32,6 +32,7 @@ export async function run(): Promise<string> {
 
   let resultObject: JSONReport
   if (typeof result === 'string') {
+    core.info(`Result String: ${result}`)
     resultObject = JSON.parse(result) as JSONReport
   } else {
     resultObject = result

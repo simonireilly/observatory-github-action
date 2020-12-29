@@ -52,13 +52,13 @@ function run() {
             core.warning('This is not a valid URL, trying as given string');
             core.error(e);
         }
-        core.info(`Running on website: ${sanitizedHostName}`);
+        core.debug(`Running on website: ${sanitizedHostName}`);
         const { result, error } = yield runObservatory(sanitizedHostName);
         if (error) {
-            core.info(error);
+            core.debug(error);
             core.setFailed(error);
         }
-        core.info(result);
+        core.debug(result);
         let resultObject;
         if (typeof result === 'string') {
             resultObject = JSON.parse(result);
