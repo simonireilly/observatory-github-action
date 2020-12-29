@@ -42,7 +42,15 @@ const exec = __importStar(__webpack_require__(514));
 const webHost = core.getInput('web_host') || 'github.com';
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
-        core.info(`Running on website: ${webHost}`);
+        let sanitizedHostName = webHost;
+        try {
+            sanitizedHostName = new URL(webHost).host;
+        }
+        catch (e) {
+            core.warning('This is not a valid URL, trying as host name');
+            core.error(e);
+        }
+        core.info(`Running on website: ${sanitizedHostName}`);
         const { result, error } = yield runObservatory();
         if (error)
             core.info(error);

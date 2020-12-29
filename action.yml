@@ -7,7 +7,7 @@ author: 'Simon Reilly'
 inputs:
   web_host: # change this
     required: true
-    description: 'Host e.g. example.com'
+    description: 'Provide a host name e.g. `example.com` or a full URL `http://example.com` OR `https://example.com`'
     default: 'github.com'
 outputs:
   observatory-report:

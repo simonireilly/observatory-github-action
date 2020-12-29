@@ -73,7 +73,8 @@ export function jsonReportToMarkdown(jsonReport: JSONReport): string {
 
     score += parseInt(score_modifier)
     resultRows.push(
-      `${pass ? ':green_circle:' : ':red_circle:'
+      `${
+        pass ? ':green_circle:' : ':red_circle:'
       } | ${score_modifier} | ${score_description}`
     )
   }
