@@ -86,6 +86,8 @@ function runObservatory(sanitizedHostName) {
             }
         };
         yield exec.exec('npx', ['observatory-cli', sanitizedHostName, '--format=json'], options);
+        core.debug(result);
+        core.debug(error);
         return { result, error };
     });
 }
