@@ -88,8 +88,8 @@ exports.runObservatory = runObservatory;
 function jsonReportToMarkdown(jsonReport, sanitizedHostName) {
     let result;
     if (typeof jsonReport === 'string') {
-        if (jsonReport.length > 0) {
-            const jsonStructure = jsonReport.slice(jsonReport.indexOf('{'));
+        const jsonStructure = jsonReport.slice(jsonReport.indexOf('{'));
+        if (jsonStructure.length > 0) {
             result = JSON.parse(jsonStructure);
         }
         else {

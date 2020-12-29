@@ -55,11 +55,15 @@ export async function runObservatory(
     }
   }
 
-  await exec.exec(
-    'npx',
-    ['observatory-cli', sanitizedHostName, '--format=json', '--attempts=30'],
-    options
-  )
+  try {
+    await exec.exec(
+      'npx',
+      ['observatory-cli', sanitizedHostName, '--format=json', '--attempts=30'],
+      options
+    )
+  } catch (e) {
+    core.setFailed(e.message)
+  }
 
   core.info(result)
   core.error(error)
