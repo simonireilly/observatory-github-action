@@ -10,7 +10,7 @@ jobs:
       - name: Test Observatory
         uses: ./
         with:
-          web_host: ${{ github.event.deployment_status["target_url"] }}
+          web_host: ${{ github.event.deployment_status['target_url'] }}
         id: observatory
       - name: Create commit comment
         uses: peter-evans/commit-comment@v1
