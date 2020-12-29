@@ -3,7 +3,7 @@ on:
   deployment:
 
 jobs:
-  static:
+  deployment:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
