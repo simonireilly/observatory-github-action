@@ -33,7 +33,10 @@ describe('jsonReportToMarkdown', () => {
     expect(markdown).toMatchSnapshot()
   })
   it('Creates a table for the results with text', () => {
-    const jsonReport = fs.readFileSync(path.join(__dirname, './fixtures/json-observatory-report.txt'), 'utf8')
+    const jsonReport = fs.readFileSync(
+      path.join(__dirname, './fixtures/json-observatory-report.txt'),
+      'utf8'
+    )
 
     const markdown = jsonReportToMarkdown(jsonReport, 'github.com')
 

@@ -54,26 +54,10 @@ function run() {
         }
         core.debug(`Running on website: ${sanitizedHostName}`);
         const { result, error } = yield runObservatory(sanitizedHostName);
-        if (error) {
+        if (error)
             core.debug(error);
-            core.setFailed(error);
-            return '';
-        }
         core.debug(result);
-        let resultObject;
-        if (typeof result === 'string') {
-            if (result.length > 0) {
-                resultObject = JSON.parse(result);
-            }
-            else {
-                core.setFailed('Result is empty');
-                return '';
-            }
-        }
-        else {
-            resultObject = result;
-        }
-        const markdown = jsonReportToMarkdown(resultObject, sanitizedHostName);
+        const markdown = jsonReportToMarkdown(result, sanitizedHostName);
         core.setOutput('observatory-report', markdown);
         return markdown;
     });
@@ -102,11 +86,25 @@ function runObservatory(sanitizedHostName) {
 }
 exports.runObservatory = runObservatory;
 function jsonReportToMarkdown(jsonReport, sanitizedHostName) {
+    let result;
+    if (typeof jsonReport === 'string') {
+        if (jsonReport.length > 0) {
+            const jsonStructure = jsonReport.slice(jsonReport.indexOf('{'));
+            result = JSON.parse(jsonStructure);
+        }
+        else {
+            core.setFailed('Result is empty');
+            return '';
+        }
+    }
+    else {
+        result = jsonReport;
+    }
     const resultRows = [];
     let score = 100;
     // Get the keys
-    for (const key in jsonReport) {
-        const { score_modifier = '0', pass, score_description } = jsonReport[key];
+    for (const key in result) {
+        const { score_modifier = '0', pass, score_description } = result[key];
         const success = Boolean(pass);
         score += parseInt(score_modifier);
         const icon = (showSuccessIcon) => showSuccessIcon ? ':green_circle:' : ':red_circle:';
