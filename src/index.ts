@@ -19,16 +19,16 @@ export async function run(): Promise<string> {
     core.error(e)
   }
 
-  core.info(`Running on website: ${sanitizedHostName}`)
+  core.debug(`Running on website: ${sanitizedHostName}`)
 
   const { result, error } = await runObservatory(sanitizedHostName)
 
   if (error) {
-    core.info(error)
+    core.debug(error)
     core.setFailed(error)
   }
 
-  core.info(result)
+  core.debug(result)
 
   let resultObject: JSONReport
   if (typeof result === 'string') {

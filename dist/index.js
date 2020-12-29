@@ -54,8 +54,10 @@ function run() {
         }
         core.info(`Running on website: ${sanitizedHostName}`);
         const { result, error } = yield runObservatory(sanitizedHostName);
-        if (error)
+        if (error) {
             core.info(error);
+            core.setFailed(error);
+        }
         core.info(result);
         let resultObject;
         if (typeof result === 'string') {
@@ -85,7 +87,7 @@ function runObservatory(sanitizedHostName) {
                 error += data.toString();
             }
         };
-        yield exec.exec('npx', ['observatory-cli', sanitizedHostName, '--format=json'], options);
+        yield exec.exec('npx', ['observatory-cli', sanitizedHostName, '--format=json', '--attempts=30'], options);
         core.debug(result);
         core.debug(error);
         return { result, error };
