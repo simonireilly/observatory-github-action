@@ -61,6 +61,7 @@ function run() {
         core.debug(result);
         let resultObject;
         if (typeof result === 'string') {
+            core.info(`Result String: ${result}`);
             resultObject = JSON.parse(result);
         }
         else {

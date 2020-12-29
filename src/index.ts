@@ -25,7 +25,6 @@ export async function run(): Promise<string> {
 
   if (error) {
     core.debug(error)
-    core.setFailed(error)
   }
 
   core.debug(result)
