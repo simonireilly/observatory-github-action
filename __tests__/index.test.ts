@@ -7,16 +7,18 @@ beforeEach(() => {
 })
 
 describe('run', () => {
-  it('with host name', async () => {
-    process.env.WEB_HOST = 'github.com'
-    const markdownString = await run()
-    expect(markdownString).toMatchSnapshot()
-  })
+  describe('Handles multiple input formats', () => {
+    it('with host name', async () => {
+      process.env.WEB_HOST = 'github.com'
+      const markdownString = await run()
+      expect(markdownString).toMatchSnapshot()
+    })
 
-  it('with url', async () => {
-    process.env.WEB_HOST = 'https://example.com'
-    const markdownString = await run()
-    expect(markdownString).toMatchSnapshot()
+    it('with url', async () => {
+      process.env.WEB_HOST = 'https://example.com'
+      const markdownString = await run()
+      expect(markdownString).toMatchSnapshot()
+    })
   })
 })
 
