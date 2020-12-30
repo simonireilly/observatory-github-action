@@ -11,6 +11,11 @@ jobs:
         uses: ./
         with:
           web_host: https://observatory-github-action.vercel.app
+        id: observatory-1
+      - name: Test Observatory
+        uses: ./
+        with:
+          web_host: https://cinch.com
         id: observatory
       - name: Create commit comment
         uses: peter-evans/commit-comment@v1
