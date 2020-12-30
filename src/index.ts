@@ -15,26 +15,19 @@ export async function run(): Promise<string> {
   try {
     sanitizedHostName = new URL(webHost()).host
   } catch (e) {
-    core.warning('This is not a valid URL, trying as host name')
+    core.warning('This is not a valid URL, trying as given string')
     core.error(e)
   }
 
-  core.info(`Running on website: ${sanitizedHostName}`)
+  core.debug(`Running on website: ${sanitizedHostName}`)
 
   const { result, error } = await runObservatory(sanitizedHostName)
 
-  if (error) core.info(error)
+  if (error) core.debug(error)
 
-  core.info(result)
+  core.debug(result)
 
-  let resultObject: JSONReport
-  if (typeof result === 'string') {
-    resultObject = JSON.parse(result) as JSONReport
-  } else {
-    resultObject = result
-  }
-
-  const markdown = jsonReportToMarkdown(resultObject, sanitizedHostName)
+  const markdown = jsonReportToMarkdown(result, sanitizedHostName)
 
   core.setOutput('observatory-report', markdown)
   return markdown
@@ -64,23 +57,40 @@ export async function runObservatory(
 
   await exec.exec(
     'npx',
-    ['observatory-cli', sanitizedHostName, '--format=json'],
+    ['observatory-cli', sanitizedHostName, '--format=json', '--attempts=30'],
     options
   )
+
+  core.info(result)
+  core.error(error)
 
   return { result, error }
 }
 
 export function jsonReportToMarkdown(
-  jsonReport: JSONReport,
+  jsonReport: JSONReport | string,
   sanitizedHostName: string
 ): string {
+  let result
+
+  if (typeof jsonReport === 'string') {
+    if (jsonReport.length > 0) {
+      const jsonStructure = jsonReport.slice(jsonReport.indexOf('{'))
+      result = JSON.parse(jsonStructure) as JSONReport
+    } else {
+      core.setFailed('Result is empty')
+      return ''
+    }
+  } else {
+    result = jsonReport
+  }
+
   const resultRows: string[] = []
   let score = 100
 
   // Get the keys
-  for (const key in jsonReport) {
-    const { score_modifier = '0', pass, score_description } = jsonReport[key]
+  for (const key in result) {
+    const { score_modifier = '0', pass, score_description } = result[key]
     const success = Boolean(pass)
 
     score += parseInt(score_modifier)
