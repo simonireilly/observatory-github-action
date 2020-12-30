@@ -39,28 +39,31 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.jsonReportToMarkdown = exports.runObservatory = exports.run = void 0;
 const core = __importStar(__webpack_require__(186));
 const exec = __importStar(__webpack_require__(514));
-const webHost = core.getInput('web_host') || 'github.com';
+const webHost = () => {
+    return core.getInput('web_host') || 'github.com';
+};
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
-        core.info(`Running on website: ${webHost}`);
-        const { result, error } = yield runObservatory();
+        let sanitizedHostName = webHost();
+        try {
+            sanitizedHostName = new URL(webHost()).host;
+        }
+        catch (e) {
+            core.warning('This is not a valid URL, trying as given string');
+            core.error(e);
+        }
+        core.debug(`Running on website: ${sanitizedHostName}`);
+        const { result, error } = yield runObservatory(sanitizedHostName);
         if (error)
-            core.info(error);
-        core.info(result);
-        let resultObject;
-        if (typeof result === 'string') {
-            resultObject = JSON.parse(result);
-        }
-        else {
-            resultObject = result;
-        }
-        const markdown = jsonReportToMarkdown(resultObject);
+            core.debug(error);
+        core.debug(result);
+        const markdown = jsonReportToMarkdown(result, sanitizedHostName);
         core.setOutput('observatory-report', markdown);
         return markdown;
     });
 }
 exports.run = run;
-function runObservatory() {
+function runObservatory(sanitizedHostName) {
     return __awaiter(this, void 0, void 0, function* () {
         let result = '';
         let error = '';
@@ -75,24 +78,43 @@ function runObservatory() {
                 error += data.toString();
             }
         };
-        yield exec.exec('npx', ['observatory-cli', webHost, '--format=json'], options);
+        yield exec.exec('npx', ['observatory-cli', sanitizedHostName, '--format=json', '--attempts=30'], options);
+        core.info(result);
+        core.error(error);
         return { result, error };
     });
 }
 exports.runObservatory = runObservatory;
-function jsonReportToMarkdown(jsonReport) {
+function jsonReportToMarkdown(jsonReport, sanitizedHostName) {
+    let result;
+    if (typeof jsonReport === 'string') {
+        if (jsonReport.length > 0) {
+            const jsonStructure = jsonReport.slice(jsonReport.indexOf('{'));
+            result = JSON.parse(jsonStructure);
+        }
+        else {
+            core.setFailed('Result is empty');
+            return '';
+        }
+    }
+    else {
+        result = jsonReport;
+    }
     const resultRows = [];
     let score = 100;
     // Get the keys
-    for (const key in jsonReport) {
-        const { score_modifier = '0', pass, score_description } = jsonReport[key];
+    for (const key in result) {
+        const { score_modifier = '0', pass, score_description } = result[key];
+        const success = Boolean(pass);
         score += parseInt(score_modifier);
-        resultRows.push(`${pass ? ':green_circle:' : ':red_circle:'} | ${score_modifier} | ${score_description}`);
+        const icon = (showSuccessIcon) => showSuccessIcon ? ':green_circle:' : ':red_circle:';
+        const message = `${icon(success)} | ${score_modifier} | ${score_description}`;
+        resultRows.push(message);
     }
     return `
-## Observatory Results [${webHost}](https://${webHost}): _${score} of 100_
+## Observatory Results [${sanitizedHostName}](https://${sanitizedHostName}): _${score} of 100_
 
-See the full report: https://observatory.mozilla.org/analyze/${webHost}
+See the full report: https://observatory.mozilla.org/analyze/${sanitizedHostName}
 
 ### Highlights
 
