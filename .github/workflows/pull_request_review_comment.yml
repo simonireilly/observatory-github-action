@@ -1,10 +1,10 @@
-name: 'pull-request-review-comment'
+name: 'page_build'
 on:
-  pull_request_review_comment:
+  page_build:
     types: [created, edited]
 
 jobs:
-  pull_request_review_comment:
+  page_build:
     runs-on: ubuntu-latest
     # if: github.event.pull_request_review_comment.user["login"]
     steps:
