@@ -55,11 +55,15 @@ export async function runObservatory(
     }
   }
 
-  await exec.exec(
-    'npx',
-    ['observatory-cli', sanitizedHostName, '--format=json', '--attempts=30'],
-    options
-  )
+  try {
+    await exec.exec(
+      'npx',
+      ['observatory-cli', sanitizedHostName, '--format=json', '--attempts=30'],
+      options
+    )
+  } catch (e) {
+    core.setFailed(e.message)
+  }
 
   core.info(result)
   core.error(error)
@@ -74,8 +78,8 @@ export function jsonReportToMarkdown(
   let result
 
   if (typeof jsonReport === 'string') {
-    if (jsonReport.length > 0) {
-      const jsonStructure = jsonReport.slice(jsonReport.indexOf('{'))
+    const jsonStructure = jsonReport.slice(jsonReport.indexOf('{'))
+    if (jsonStructure.length > 0) {
       result = JSON.parse(jsonStructure) as JSONReport
     } else {
       core.setFailed('Result is empty')

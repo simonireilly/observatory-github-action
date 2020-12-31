@@ -78,7 +78,12 @@ function runObservatory(sanitizedHostName) {
                 error += data.toString();
             }
         };
-        yield exec.exec('npx', ['observatory-cli', sanitizedHostName, '--format=json', '--attempts=30'], options);
+        try {
+            yield exec.exec('npx', ['observatory-cli', sanitizedHostName, '--format=json', '--attempts=30'], options);
+        }
+        catch (e) {
+            core.setFailed(e.message);
+        }
         core.info(result);
         core.error(error);
         return { result, error };
@@ -88,8 +93,8 @@ exports.runObservatory = runObservatory;
 function jsonReportToMarkdown(jsonReport, sanitizedHostName) {
     let result;
     if (typeof jsonReport === 'string') {
-        if (jsonReport.length > 0) {
-            const jsonStructure = jsonReport.slice(jsonReport.indexOf('{'));
+        const jsonStructure = jsonReport.slice(jsonReport.indexOf('{'));
+        if (jsonStructure.length > 0) {
             result = JSON.parse(jsonStructure);
         }
         else {
