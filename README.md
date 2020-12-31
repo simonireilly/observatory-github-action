@@ -7,7 +7,7 @@ Run the [Mozilla Observatory](https://observatory.mozilla.org/) in CI/CD for any
   - [Setup](#setup)
   - [Detailed Examples](#detailed-examples)
     - [Static URL on Pull Requests](#static-url-on-pull-requests)
-    - [Deployment Status for PReview Environments](#deployment-status-for-preview-environments)
+    - [Deployment Status for Preview Environments](#deployment-status-for-preview-environments)
     - [Powered By](#powered-by)
 
 ## About
@@ -76,7 +76,11 @@ jobs:
           body: '# Branch PR ${{ steps.observatory.outputs.observatory-report }}'
 ```
 
-### Deployment Status for PReview Environments
+*Output*
+
+![GitHub comment showing output from observatory report](.readme/static-url.png)
+
+### Deployment Status for Preview Environments
 
 This method will work for Preview deploys that use the GitHub deployments API. It supports [https://vercel.com/](https://vercel.com/) preview Urls.
 
@@ -105,6 +109,9 @@ jobs:
 
 ```
 
+*Output*
+
+![GitHub comment showing output from observatory report](.readme/deployment-status.png)
 
 ### Powered By
 
