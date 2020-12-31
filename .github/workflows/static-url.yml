@@ -3,7 +3,7 @@ on:
   pull_request:
 
 jobs:
-  static-url                                  :
+  static-url:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -16,4 +16,3 @@ jobs:
         uses: peter-evans/commit-comment@v1
         with:
           body: '# Branch PR ${{ steps.observatory.outputs.observatory-report }}'
-
