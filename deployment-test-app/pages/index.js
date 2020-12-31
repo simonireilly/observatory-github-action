@@ -8,6 +8,12 @@ export default function Home() {
         <title>Next Observatory Test Application</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
+      <main className={styles.main}>
+        <h1 className={styles.title}>
+          Next Observatory Test Application
+        </h1>
+      </main>
     </div>
   )
 }
