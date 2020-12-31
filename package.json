@@ -10,13 +10,14 @@
     "format": "prettier --write **/*.ts",
     "format-check": "prettier --check **/*.ts",
     "lint": "eslint src/**/*.ts",
+    "lint-fix": "npm run lint --fix",
     "package": "ncc build --source-map --license licenses.txt",
     "test": "jest --runInBand",
-    "all": "npm run build && npm run format && npm run lint && npm run package"
+    "all": "npm run build && npm run package"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn all"
+      "pre-commit": "yarn lint-fix && yarn all"
     }
   },
   "repository": {
