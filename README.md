@@ -1,108 +1,112 @@
-<p align="center">
-  <a href="https://github.com/actions/typescript-action/actions"><img alt="typescript-action status" src="https://github.com/actions/typescript-action/workflows/build-test/badge.svg"></a>
-</p>
+# Observatory GitHub Action
 
-# Create a JavaScript Action using TypeScript
+Run the [Mozilla Observatory](https://observatory.mozilla.org/) in CI/CD for any website.
 
-Use this template to bootstrap the creation of a TypeScript action.:rocket:
+- [Observatory GitHub Action](#observatory-github-action)
+  - [About](#about)
+  - [Setup](#setup)
+  - [Detailed Examples](#detailed-examples)
+    - [Static URL on Pull Requests](#static-url-on-pull-requests)
+    - [Deployment Status for PReview Environments](#deployment-status-for-preview-environments)
+    - [Powered By](#powered-by)
 
-This template includes compilation support, tests, a validation workflow, publishing, and versioning guidance.
+## About
 
-If you are new, there's also a simpler introduction.  See the [Hello World JavaScript Action](https://github.com/actions/hello-world-javascript-action)
+This action is a light wrapper around [mozilla/observatory-cli](https://github.com/mozilla/observatory-cli) that returns a markdown string.
 
-## Create an action from this template
+It can be used in conjunction with other comment based actions to add PR comments
+## Setup
 
-Click the `Use this Template` and provide the new repo details for your action
+Add the action as a step in your github actions:
 
-## Code in Main
-
-Install the dependencies
-```bash
-$ npm install
+>.github/workflows/example.yml
+```
+      - name: Observatory Github Action
+        id: observatory
+        uses: simonireilly/observatory-github-action@v0.0.1
+        with:
+          web_host: https://example.com
+      - name: Create commit comment
+        uses: peter-evans/commit-comment@v1
+        with:
+          body: ${{ steps.observatory.outputs.observatory-report }}
 ```
 
-Build the typescript and package it for distribution
-```bash
-$ npm run build && npm run package
-```
+>## Observatory Results [example.com](https://example.com): _0 of 100_
+>
+>See the full report: https://observatory.mozilla.org/analyze/example.com
+>
+>### Highlights
+>
+>| Passed       | Score | Description                                                  |
+>| ------------ | ----- | ------------------------------------------------------------ |
+>| :red_circle: | -25   | Content Security Policy (CSP) header not implemented         |
+>| :red_circle: | -20   | Does not redirect to an HTTPS site                           |
+>| :red_circle: | -20   | HTTP Strict Transport Security (HSTS) header not implemented |
+>| :red_circle: | -5    | X-Content-Type-Options header not implemented                |
+>| :red_circle: | -20   | X-Frame-Options (XFO) header not implemented                 |
+>| :red_circle: | -10   | X-XSS-Protection header not implemented                      |
 
-Run the tests :heavy_check_mark:
-```bash
-$ npm test
+## Detailed Examples
 
- PASS  ./index.test.js
-  ✓ throws invalid number (3ms)
-  ✓ wait 500 ms (504ms)
-  ✓ test runs (95ms)
+The github workflows folder contain detailed examples
 
-...
-```
-
-## Change action.yml
-
-The action.yml contains defines the inputs and output for your action.
-
-Update the action.yml with your name, description, inputs and outputs for your action.
-
-See the [documentation](https://help.github.com/en/articles/metadata-syntax-for-github-actions)
-
-## Change the Code
-
-Most toolkit and CI/CD operations involve async operations so the action is run in an async function.
-
-```javascript
-import * as core from '@actions/core';
-...
-
-async function run() {
-  try {
-      ...
-  }
-  catch (error) {
-    core.setFailed(error.message);
-  }
-}
-
-run()
-```
-
-See the [toolkit documentation](https://github.com/actions/toolkit/blob/master/README.md#packages) for the various packages.
-
-## Publish to a distribution branch
-
-Actions are run from GitHub repos so we will checkin the packed dist folder.
-
-Then run [ncc](https://github.com/zeit/ncc) and push the results:
-```bash
-$ npm run package
-$ git add dist
-$ git commit -a -m "prod dependencies"
-$ git push origin releases/v1
-```
-
-Note: We recommend using the `--license` option for ncc, which will create a license file for all of the production node modules used in your project.
-
-Your action is now published! :rocket:
-
-See the [versioning documentation](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md)
-
-## Validate
-
-You can now validate the action by referencing `./` in a workflow in your repo (see [test.yml](.github/workflows/test.yml))
+### Static URL on Pull Requests
 
 ```yaml
-uses: ./
-with:
-  milliseconds: 1000
+# .github/workflows/static-url.yml
+
+name: 'branch'
+on:
+  pull_request:
+
+jobs:
+  static-url:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Test Observatory
+        uses: ./
+        with:
+          web_host: https://hungry-borg-990e06.netlify.app
+        id: observatory
+      - name: Create commit comment
+        uses: peter-evans/commit-comment@v1
+        with:
+          body: '# Branch PR ${{ steps.observatory.outputs.observatory-report }}'
 ```
 
-See the [actions tab](https://github.com/actions/typescript-action/actions) for runs of this action! :rocket:
+### Deployment Status for PReview Environments
 
-## Usage:
+This method will work for Preview deploys that use the GitHub deployments API. It supports [https://vercel.com/](https://vercel.com/) preview Urls.
 
-After testing you can [create a v1 tag](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md) to reference the stable and latest V1 action
+```yaml
+# .github/workflows/deployment_status.yml
+
+name: 'deployment-status'
+on:
+  deployment_status:
+
+jobs:
+  deployment_status:
+    runs-on: ubuntu-latest
+    if: github.event.deployment_status.state == 'success'
+    steps:
+      - uses: actions/checkout@v2
+      - name: Test Observatory
+        uses: ./
+        with:
+          web_host: ${{ github.event.deployment_status['target_url'] }}
+        id: observatory
+      - name: Create commit comment
+        uses: peter-evans/commit-comment@v1
+        with:
+          body: '# Deployment Status _${{ github.event.deployment_status.state }}_ ${{ steps.observatory.outputs.observatory-report }}'
+
+```
 
 
-## Developer
+### Powered By
 
-Run github workflows locally: https://github.com/nektos/act
+- [HTTP Observatory](https://github.com/mozilla/http-observatory) by April King
+- [HTTP Observatory CLI](https://github.com/mozilla/observatory-cli) by April King

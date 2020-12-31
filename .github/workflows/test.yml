@@ -11,3 +11,5 @@ jobs:
           yarn install
       - run: |
           yarn all
+      - run: |
+          yarn test

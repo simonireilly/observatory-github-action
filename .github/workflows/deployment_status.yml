@@ -16,4 +16,4 @@ jobs:
       - name: Create commit comment
         uses: peter-evans/commit-comment@v1
         with:
-          body: '# Deployment Status == Success ${{ steps.observatory.outputs.observatory-report }}'
+          body: '# Deployment Status _${{ github.event.deployment_status.state }}_ ${{ steps.observatory.outputs.observatory-report }}'
