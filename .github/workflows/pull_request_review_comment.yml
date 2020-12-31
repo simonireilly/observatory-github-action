@@ -4,7 +4,7 @@ on:
     types: [created, edited]
 
 jobs:
-  deployment_status:
+  pull_request_review_comment:
     runs-on: ubuntu-latest
     # if: github.event.pull_request_review_comment.user["login"]
     steps:
