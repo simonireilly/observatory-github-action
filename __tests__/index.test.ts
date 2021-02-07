@@ -1,4 +1,5 @@
 import { run, jsonReportToMarkdown } from '../src/index'
+import jsonReport from './fixtures/json-observatory-report.json'
 import * as fs from 'fs'
 import * as path from 'path'
 
@@ -26,8 +27,6 @@ describe('run', () => {
 
 describe('jsonReportToMarkdown', () => {
   it('Creates a table for the results with json', () => {
-    const jsonReport = require('./fixtures/json-observatory-report.json')
-
     const markdown = jsonReportToMarkdown(jsonReport, 'github.com')
 
     expect(markdown).toMatchSnapshot()

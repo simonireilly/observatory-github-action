@@ -45,7 +45,7 @@ The github workflows folder contain detailed examples
 ### Static URL on Pull Requests
 
 ```yaml
-# .github/workflows/static-url.yml
+# examples/workflows/static-url.yml
 
 name: 'branch'
 on:
@@ -57,14 +57,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Test Observatory
-        uses: ./
+        uses: simonireilly/observatory-github-action@v0.0.1
+        id: observatory
         with:
           web_host: https://hungry-borg-990e06.netlify.app
-        id: observatory
       - name: Create commit comment
         uses: peter-evans/commit-comment@v1
         with:
           body: '# Branch PR ${{ steps.observatory.outputs.observatory-report }}'
+
 ```
 
 *Output*
@@ -76,7 +77,7 @@ jobs:
 This method will work for Preview deploys that use the GitHub deployments API. It supports [https://vercel.com/](https://vercel.com/) preview Urls.
 
 ```yaml
-# .github/workflows/deployment_status.yml
+# examples/workflows/deployment_status.yml
 
 name: 'deployment-status'
 on:
@@ -89,9 +90,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Test Observatory
-        uses: ./
-        with:
-          web_host: ${{ github.event.deployment_status['target_url'] }}
+        uses: simonireilly/observatory-github-action@v0.0.1
         id: observatory
       - name: Create commit comment
         uses: peter-evans/commit-comment@v1
