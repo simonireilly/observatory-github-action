@@ -2,7 +2,7 @@ import * as core from '@actions/core'
 import * as exec from '@actions/exec'
 
 type JSONReport = {
-  [key: string]: { [key: string]: string }
+  [key: string]: any
 }
 
 const webHost = (): string => {
