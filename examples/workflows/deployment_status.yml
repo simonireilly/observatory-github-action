@@ -1,0 +1,17 @@
+name: 'deployment-status'
+on:
+  deployment_status:
+
+jobs:
+  deployment_status:
+    runs-on: ubuntu-latest
+    if: github.event.deployment_status.state == 'success'
+    steps:
+      - uses: actions/checkout@v2
+      - name: Test Observatory
+        uses: simonireilly/observatory-github-action@v0.0.1
+        id: observatory
+      - name: Create commit comment
+        uses: peter-evans/commit-comment@v1
+        with:
+          body: '# Deployment Status _${{ github.event.deployment_status.state }}_ ${{ steps.observatory.outputs.observatory-report }}'
