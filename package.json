@@ -1,6 +1,6 @@
 {
   "name": "observatory-github-action",
-  "version": "0.0.1",
+  "version": "0.0.2-beta.0",
   "private": true,
   "description": "Observatory CLI runner for github actions",
   "main": "lib/main.js",
