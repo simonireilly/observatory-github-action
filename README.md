@@ -9,7 +9,9 @@ Run the [Mozilla Observatory](https://observatory.mozilla.org/) in CI/CD for any
   - [Detailed Examples](#detailed-examples)
     - [Static URL on Pull Requests](#static-url-on-pull-requests)
     - [Deployment Status for Preview Environments](#deployment-status-for-preview-environments)
-    - [Powered By](#powered-by)
+  - [Contributing](#contributing)
+    - [Releasing](#releasing)
+  - [Powered By](#powered-by)
 
 ## About
 
@@ -103,7 +105,25 @@ jobs:
 
 ![GitHub comment showing output from observatory report](.readme/deployment-status.png)
 
-### Powered By
+## Contributing
+
+Fork the repository and create a MR against the upstream.
+
+### Releasing
+
+To release, with master branch checked out run:
+
+```
+yarn pub:beta
+```
+
+Keep the changelog up to date between merge releases with:
+
+```markdown
+## [Unchanged]
+```
+
+## Powered By
 
 - [HTTP Observatory](https://github.com/mozilla/http-observatory) by April King
 - [HTTP Observatory CLI](https://github.com/mozilla/observatory-cli) by April King
