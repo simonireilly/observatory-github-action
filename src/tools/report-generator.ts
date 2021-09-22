@@ -1,20 +1,22 @@
 // Given a JSON report from the runner, it will translate it to markdown
 import * as core from '@actions/core';
 
-type JSONReport = {
-  [key: string]: unknown;
-};
-
 interface Report {
   [key: string]: {
+    expectation: string;
+    name: string;
+    output: {
+      [key: string]: unknown;
+    };
+    pass: boolean;
+    result: string;
     score_modifier: string;
-    pass: string;
-    score_description: string;
+    score_description: number;
   };
 }
 
 export function jsonReportToMarkdown(
-  jsonReport: JSONReport | string,
+  jsonReport: Report | string,
   sanitizedHostName: string
 ): string {
   let result;
@@ -22,7 +24,7 @@ export function jsonReportToMarkdown(
   if (typeof jsonReport === 'string') {
     const jsonStructure = jsonReport.slice(jsonReport.indexOf('{'));
     if (jsonStructure.length > 0) {
-      result = JSON.parse(jsonStructure) as JSONReport;
+      result = JSON.parse(jsonStructure) as Report;
     } else {
       core.setFailed('Result is empty');
       return '';
