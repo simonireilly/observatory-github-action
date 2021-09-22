@@ -235,9 +235,9 @@ function jsonReportToMarkdown(jsonReport, sanitizedHostName) {
     let score = 100;
     // Get the keys
     for (const key in report) {
-        const { score_modifier = '0', pass, score_description } = report[key];
+        const { score_modifier = 0, pass, score_description } = report[key];
         const success = Boolean(pass);
-        score += parseInt(score_modifier);
+        score += score_modifier;
         const icon = (showSuccessIcon) => showSuccessIcon ? ':green_circle:' : ':red_circle:';
         const message = `${icon(success)} | ${score_modifier} | ${score_description}`;
         resultRows.push(message);

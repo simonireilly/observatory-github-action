@@ -10,8 +10,8 @@ interface Report {
     };
     pass: boolean;
     result: string;
-    score_modifier: string;
-    score_description: number;
+    score_modifier: number;
+    score_description: string;
   };
 }
 
@@ -41,10 +41,10 @@ export function jsonReportToMarkdown(
 
   // Get the keys
   for (const key in report) {
-    const { score_modifier = '0', pass, score_description } = report[key];
+    const { score_modifier = 0, pass, score_description } = report[key];
     const success = Boolean(pass);
 
-    score += parseInt(score_modifier);
+    score += score_modifier;
     const icon = (showSuccessIcon: boolean): string =>
       showSuccessIcon ? ':green_circle:' : ':red_circle:';
     const message = `${icon(
