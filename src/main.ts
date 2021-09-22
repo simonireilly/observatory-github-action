@@ -1,5 +1,5 @@
 import * as core from '@actions/core';
-import { run } from './index';
+import { run } from './tools';
 
 try {
   run();
@@ -10,3 +10,5 @@ try {
     core.setFailed('An unknown error occurred');
   }
 }
+
+export {};

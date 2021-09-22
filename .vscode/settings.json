@@ -1,3 +1,4 @@
 {
-  "jest.pathToJest": "yarn test"
+  "jest.pathToJest": "yarn test",
+  "cSpell.words": ["embedme"]
 }

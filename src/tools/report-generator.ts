@@ -1,8 +1,17 @@
+// Given a JSON report from the runner, it will translate it to markdown
 import * as core from '@actions/core';
 
 type JSONReport = {
   [key: string]: unknown;
 };
+
+interface Report {
+  [key: string]: {
+    score_modifier: string;
+    pass: string;
+    score_description: string;
+  };
+}
 
 export function jsonReportToMarkdown(
   jsonReport: JSONReport | string,
@@ -23,11 +32,14 @@ export function jsonReportToMarkdown(
   }
 
   const resultRows: string[] = [];
+  const report = result as Report;
+
+  // Baseline score, points will be added or deducted
   let score = 100;
 
   // Get the keys
-  for (const key in result) {
-    const { score_modifier = '0', pass, score_description } = result[key];
+  for (const key in report) {
+    const { score_modifier = '0', pass, score_description } = report[key];
     const success = Boolean(pass);
 
     score += parseInt(score_modifier);
