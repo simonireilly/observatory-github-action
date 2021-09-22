@@ -1,109 +1,116 @@
-import * as core from '@actions/core'
-import * as exec from '@actions/exec'
+import * as core from '@actions/core';
+import * as exec from '@actions/exec';
+import { type } from 'os';
 
 type JSONReport = {
-  [key: string]: any
-}
+  [key: string]: any;
+};
 
 const webHost = (): string => {
-  return core.getInput('web_host') || 'github.com'
-}
+  return core.getInput('web_host') || 'github.com';
+};
 
 export async function run(): Promise<string> {
-  let sanitizedHostName = webHost()
+  let sanitizedHostName = webHost();
 
   try {
-    sanitizedHostName = new URL(webHost()).host
-  } catch (e) {
-    core.warning('This is not a valid URL, trying as given string')
-    core.error(e)
+    sanitizedHostName = new URL(webHost()).host;
+  } catch (e: unknown) {
+    core.warning('This is not a valid URL, trying as given string');
+    if (e instanceof Error) {
+      core.error(e);
+    } else {
+      core.setFailed('An unknown error occurred');
+    }
   }
 
-  core.debug(`Running on website: ${sanitizedHostName}`)
+  core.debug(`Running on website: ${sanitizedHostName}`);
 
-  const { result, error } = await runObservatory(sanitizedHostName)
+  const { result, error } = await runObservatory(sanitizedHostName);
 
-  if (error) core.debug(error)
+  if (error) core.debug(error);
 
-  core.debug(result)
+  core.debug(result);
 
-  const markdown = jsonReportToMarkdown(result, sanitizedHostName)
+  const markdown = jsonReportToMarkdown(result, sanitizedHostName);
 
-  core.setOutput('observatory-report', markdown)
-  return markdown
+  core.setOutput('observatory-report', markdown);
+  return markdown;
 }
 
-export async function runObservatory(
-  sanitizedHostName: string
-): Promise<{
-  result: string
-  error?: string
+export async function runObservatory(sanitizedHostName: string): Promise<{
+  result: string;
+  error?: string;
 }> {
-  let result = ''
-  let error = ''
+  let result = '';
+  let error = '';
 
   const options = {
-    listeners: {}
-  }
+    listeners: {},
+  };
 
   options.listeners = {
     stdout: (data: Buffer) => {
-      result += data.toString()
+      result += data.toString();
     },
     stderr: (data: Buffer) => {
-      error += data.toString()
-    }
-  }
+      error += data.toString();
+    },
+  };
 
   try {
     await exec.exec(
       'npx',
       ['observatory-cli', sanitizedHostName, '--format=json', '--attempts=30'],
       options
-    )
+    );
   } catch (e) {
-    core.setFailed(e.message)
+    if (e instanceof Error) {
+      core.setFailed(e.message);
+    } else {
+      core.setFailed('An unknown error occurred');
+    }
   }
 
-  core.info(result)
-  core.error(error)
+  core.info(result);
+  core.error(error);
 
-  return { result, error }
+  return { result, error };
 }
 
 export function jsonReportToMarkdown(
   jsonReport: JSONReport | string,
   sanitizedHostName: string
 ): string {
-  let result
+  let result;
 
   if (typeof jsonReport === 'string') {
-    const jsonStructure = jsonReport.slice(jsonReport.indexOf('{'))
+    const jsonStructure = jsonReport.slice(jsonReport.indexOf('{'));
     if (jsonStructure.length > 0) {
-      result = JSON.parse(jsonStructure) as JSONReport
+      result = JSON.parse(jsonStructure) as JSONReport;
     } else {
-      core.setFailed('Result is empty')
-      return ''
+      core.setFailed('Result is empty');
+      return '';
     }
   } else {
-    result = jsonReport
+    result = jsonReport;
   }
 
-  const resultRows: string[] = []
-  let score = 100
+  const resultRows: string[] = [];
+  let score = 100;
 
   // Get the keys
   for (const key in result) {
-    const { score_modifier = '0', pass, score_description } = result[key]
-    const success = Boolean(pass)
+    const { score_modifier = '0', pass, score_description } = result[key];
+    const success = Boolean(pass);
 
-    score += parseInt(score_modifier)
+    score += parseInt(score_modifier);
     const icon = (showSuccessIcon: boolean): string =>
-      showSuccessIcon ? ':green_circle:' : ':red_circle:'
+      showSuccessIcon ? ':green_circle:' : ':red_circle:';
     const message = `${icon(
       success
-    )} | ${score_modifier} | ${score_description}`
-    resultRows.push(message)
+    )} | ${score_modifier} | ${score_description}`;
+    resultRows.push(message);
   }
 
   return `
@@ -116,5 +123,5 @@ See the full report: https://observatory.mozilla.org/analyze/${sanitizedHostName
 Passed | Score | Description
 --- | --- | ---
 ${resultRows.join('\n')}
-  `
+  `;
 }

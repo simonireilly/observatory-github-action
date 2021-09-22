@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-* Update all dependencies
+* Update all dependencies and perform instance checking of handled errors (#195)
 
 ## [0.0.2-beta.0] - 2021-05-27
 
