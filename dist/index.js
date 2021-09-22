@@ -2,7 +2,48 @@ require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 822:
+/***/ 109:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const core = __importStar(__nccwpck_require__(186));
+const tools_1 = __nccwpck_require__(678);
+try {
+    (0, tools_1.run)();
+}
+catch (error) {
+    if (error instanceof Error) {
+        core.setFailed(error.message);
+    }
+    else {
+        core.setFailed('An unknown error occurred');
+    }
+}
+
+
+/***/ }),
+
+/***/ 678:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 
@@ -35,9 +76,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.jsonReportToMarkdown = exports.runObservatory = exports.run = void 0;
+exports.run = void 0;
+// Handles configuration, and calling out to the runner
+const observatory_runner_1 = __nccwpck_require__(669);
 const core = __importStar(__nccwpck_require__(186));
-const exec = __importStar(__nccwpck_require__(514));
+const report_generator_1 = __nccwpck_require__(657);
 const webHost = () => {
     return core.getInput('web_host') || 'github.com';
 };
@@ -57,16 +100,57 @@ function run() {
             }
         }
         core.debug(`Running on website: ${sanitizedHostName}`);
-        const { result, error } = yield runObservatory(sanitizedHostName);
+        const { result, error } = yield (0, observatory_runner_1.runObservatory)(sanitizedHostName);
         if (error)
             core.debug(error);
         core.debug(result);
-        const markdown = jsonReportToMarkdown(result, sanitizedHostName);
+        const markdown = (0, report_generator_1.jsonReportToMarkdown)(result, sanitizedHostName);
         core.setOutput('observatory-report', markdown);
         return markdown;
     });
 }
 exports.run = run;
+
+
+/***/ }),
+
+/***/ 669:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.runObservatory = void 0;
+// Handlers spawning a process that runs the observatory CLI
+const core = __importStar(__nccwpck_require__(186));
+const exec = __importStar(__nccwpck_require__(514));
 function runObservatory(sanitizedHostName) {
     return __awaiter(this, void 0, void 0, function* () {
         let result = '';
@@ -99,50 +183,11 @@ function runObservatory(sanitizedHostName) {
     });
 }
 exports.runObservatory = runObservatory;
-function jsonReportToMarkdown(jsonReport, sanitizedHostName) {
-    let result;
-    if (typeof jsonReport === 'string') {
-        const jsonStructure = jsonReport.slice(jsonReport.indexOf('{'));
-        if (jsonStructure.length > 0) {
-            result = JSON.parse(jsonStructure);
-        }
-        else {
-            core.setFailed('Result is empty');
-            return '';
-        }
-    }
-    else {
-        result = jsonReport;
-    }
-    const resultRows = [];
-    let score = 100;
-    // Get the keys
-    for (const key in result) {
-        const { score_modifier = '0', pass, score_description } = result[key];
-        const success = Boolean(pass);
-        score += parseInt(score_modifier);
-        const icon = (showSuccessIcon) => showSuccessIcon ? ':green_circle:' : ':red_circle:';
-        const message = `${icon(success)} | ${score_modifier} | ${score_description}`;
-        resultRows.push(message);
-    }
-    return `
-## Observatory Results [${sanitizedHostName}](https://${sanitizedHostName}): _${score} of 100_
-
-See the full report: https://observatory.mozilla.org/analyze/${sanitizedHostName}
-
-### Highlights
-
-Passed | Score | Description
---- | --- | ---
-${resultRows.join('\n')}
-  `;
-}
-exports.jsonReportToMarkdown = jsonReportToMarkdown;
 
 
 /***/ }),
 
-/***/ 109:
+/***/ 657:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 
@@ -166,19 +211,50 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.jsonReportToMarkdown = void 0;
+// Given a JSON report from the runner, it will translate it to markdown
 const core = __importStar(__nccwpck_require__(186));
-const index_1 = __nccwpck_require__(822);
-try {
-    (0, index_1.run)();
-}
-catch (error) {
-    if (error instanceof Error) {
-        core.setFailed(error.message);
+function jsonReportToMarkdown(jsonReport, sanitizedHostName) {
+    let result;
+    if (typeof jsonReport === 'string') {
+        const jsonStructure = jsonReport.slice(jsonReport.indexOf('{'));
+        if (jsonStructure.length > 0) {
+            result = JSON.parse(jsonStructure);
+        }
+        else {
+            core.setFailed('Result is empty');
+            return '';
+        }
     }
     else {
-        core.setFailed('An unknown error occurred');
+        result = jsonReport;
     }
+    const resultRows = [];
+    const report = result;
+    // Baseline score, points will be added or deducted
+    let score = 100;
+    // Get the keys
+    for (const key in report) {
+        const { score_modifier = 0, pass, score_description } = report[key];
+        const success = Boolean(pass);
+        score += score_modifier;
+        const icon = (showSuccessIcon) => showSuccessIcon ? ':green_circle:' : ':red_circle:';
+        const message = `${icon(success)} | ${score_modifier} | ${score_description}`;
+        resultRows.push(message);
+    }
+    return `
+## Observatory Results [${sanitizedHostName}](https://${sanitizedHostName}): _${score} of 100_
+
+See the full report: https://observatory.mozilla.org/analyze/${sanitizedHostName}
+
+### Highlights
+
+Passed | Score | Description
+--- | --- | ---
+${resultRows.join('\n')}
+  `;
 }
+exports.jsonReportToMarkdown = jsonReportToMarkdown;
 
 
 /***/ }),
@@ -1638,7 +1714,7 @@ exports.findInPath = exports.which = exports.mkdirP = exports.rmRF = exports.mv 
 const assert_1 = __nccwpck_require__(357);
 const childProcess = __importStar(__nccwpck_require__(129));
 const path = __importStar(__nccwpck_require__(622));
-const util_1 = __nccwpck_require__(669);
+const util_1 = __nccwpck_require__(853);
 const ioUtil = __importStar(__nccwpck_require__(962));
 const exec = util_1.promisify(childProcess.exec);
 const execFile = util_1.promisify(childProcess.execFile);
@@ -2004,7 +2080,7 @@ module.exports = require("timers");
 
 /***/ }),
 
-/***/ 669:
+/***/ 853:
 /***/ ((module) => {
 
 module.exports = require("util");
