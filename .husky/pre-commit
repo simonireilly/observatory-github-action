@@ -1,0 +1,6 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+yarn readme
+yarn lint-fix
+npx syncpack format set-semver-ranges

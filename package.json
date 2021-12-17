@@ -17,18 +17,13 @@
     "eslint": "8.4.1",
     "eslint-plugin-github": "4.3.5",
     "eslint-plugin-jest": "25.3.0",
-    "husky": "7.0.4",
+    "husky": "^7.0.0",
     "jest": "27.4.5",
     "jest-circus": "27.4.5",
     "js-yaml": "4.1.0",
     "release-it": "14.11.8",
     "ts-jest": "27.1.2",
     "typescript": "4.5.4"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn readme && yarn lint-fix && yarn all"
-    }
   },
   "keywords": [
     "actions",
@@ -51,6 +46,7 @@
     "pub:beta": "release-it --preRelease=beta --no-npm.publish",
     "pub:latest": "release-it --no-npm.publish",
     "readme": "embedme README.md",
-    "test": "jest --runInBand"
+    "test": "jest --runInBand",
+    "prepare": "husky install"
   }
 }

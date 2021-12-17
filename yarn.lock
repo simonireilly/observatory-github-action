@@ -692,13 +692,6 @@
   dependencies:
     "@octokit/openapi-types" "^11.2.0"
 
-"@release-it/keep-a-changelog@2.3.0":
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/@release-it/keep-a-changelog/-/keep-a-changelog-2.3.0.tgz#dfe888f97604a13c161e78f67509b296fb91ebc5"
-  integrity sha512-W3rzUsfT1BeDx9KDPJvpos7aQ+fModusP9X90VWYxOc/+tl5UUrH3Sjh2bemtG0okCtEFY/qnU3abbR5MK1wbg==
-  dependencies:
-    detect-newline "^3.1.0"
-
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
@@ -1685,7 +1678,7 @@ deprecation@^2.0.0, deprecation@^2.3.1:
   resolved "https://registry.yarnpkg.com/deprecation/-/deprecation-2.3.1.tgz#6368cbdb40abf3373b525ac87e4a260c3a700919"
   integrity sha512-xmHIy4F3scKVwMsQ4WnVaS8bHOx0DmVwRywosKhaILI0ywMDWPtBSku2HNxRvF7jtwDRsoEwYQSfbxj8b7RlJQ==
 
-detect-newline@^3.0.0, detect-newline@^3.1.0:
+detect-newline@^3.0.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/detect-newline/-/detect-newline-3.1.0.tgz#576f5dfc63ae1a192ff192d8ad3af6308991b651"
   integrity sha512-TLz+x/vEXm/Y7P7wn1EJFNLxYpUD4TgMosxY6fAVJUnJMbupHBOncxyWUG9OpTaH9EBD7uFI5LfEgmMOc54DsA==
