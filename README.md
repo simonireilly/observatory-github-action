@@ -117,6 +117,12 @@ To release, with master branch checked out run:
 yarn pub:beta
 ```
 
+If this is to be a latest release run:
+
+```
+yarn pub:latest
+```
+
 Keep the changelog up to date between merge releases with:
 
 ```markdown
