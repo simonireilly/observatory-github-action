@@ -43,10 +43,10 @@
     "lint-fix": "npm run lint --fix",
     "observatory-cli": "observatory",
     "package": "ncc build --source-map --license licenses.txt",
+    "prepare": "husky install",
     "pub:beta": "release-it --preRelease=beta --no-npm.publish",
     "pub:latest": "release-it --no-npm.publish",
     "readme": "embedme README.md",
-    "test": "jest --runInBand",
-    "prepare": "husky install"
+    "test": "jest --runInBand"
   }
 }
