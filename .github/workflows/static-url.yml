@@ -1,4 +1,4 @@
-name: "branch"
+name: "static"
 on:
   pull_request:
 

@@ -4,3 +4,4 @@
 yarn readme
 yarn lint-fix
 npx syncpack format set-semver-ranges
+yarn all
