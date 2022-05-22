@@ -1,13 +1,18 @@
 // Handlers spawning a process that runs the observatory CLI
-import * as core from '@actions/core';
-import * as exec from '@actions/exec';
+import * as core from "@actions/core";
+import * as exec from "@actions/exec";
+import { runWithRetry } from "./retries";
 
-export async function runObservatory(sanitizedHostName: string): Promise<{
+export async function runObservatory(
+  sanitizedHostName: string,
+  maxRetries = 5
+): Promise<{
   result: string;
   error?: string;
 }> {
-  let result = '';
-  let error = '';
+  // Setup scoped streams for piping into all attempts
+  let result = "";
+  let error = "";
 
   const options = {
     listeners: {},
@@ -22,22 +27,35 @@ export async function runObservatory(sanitizedHostName: string): Promise<{
     },
   };
 
-  try {
-    await exec.exec(
-      'npx',
-      ['observatory-cli', sanitizedHostName, '--format=json', '--attempts=30'],
-      options
-    );
-  } catch (e) {
-    if (e instanceof Error) {
-      core.setFailed(e.message);
-    } else {
-      core.setFailed('An unknown error occurred');
-    }
-  }
+  await runWithRetry(
+    () => runTool(sanitizedHostName, options),
+    handleExhaustedRetries,
+    maxRetries
+  );
 
   core.info(result);
   core.error(error);
 
   return { result, error };
 }
+
+// Private helpers
+
+const handleExhaustedRetries = async (e: unknown) => {
+  if (e instanceof Error) {
+    core.setFailed(e.message);
+  } else {
+    core.setFailed("An unknown error occurred");
+  }
+};
+
+const runTool = async (
+  sanitizedHostName: string,
+  options: exec.ExecOptions
+) => {
+  return exec.exec(
+    "npx",
+    ["observatory-cli", sanitizedHostName, "--format=json", "--attempts=3"],
+    options
+  );
+};

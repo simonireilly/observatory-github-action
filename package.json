@@ -47,6 +47,7 @@
     "pub:beta": "release-it --preRelease=beta --no-npm.publish",
     "pub:latest": "release-it --no-npm.publish",
     "readme": "embedme README.md",
-    "test": "jest --runInBand"
+    "test": "jest unit",
+    "test: integration": "jest --runInBand integration"
   }
 }
