@@ -1,4 +1,4 @@
-name: 'deployment'
+name: "deployment"
 on:
   deployment:
 
@@ -6,12 +6,13 @@ jobs:
   deployment:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+
       - name: Test Observatory
-        uses: simonireilly/observatory-github-action@v0.0.1
+        uses: simonireilly/observatory-github-action@v0.1.0
         id: observatory
+
       - name: Create commit comment
         uses: peter-evans/commit-comment@v1
         with:
-          body: '# Deployment ${{ steps.observatory.outputs.observatory-report }}'
-
+          body: "# Deployment ${{ steps.observatory.outputs.observatory-report }}"

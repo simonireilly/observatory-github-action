@@ -1,4 +1,4 @@
-name: 'branch'
+name: "branch"
 on:
   pull_request:
 
@@ -6,13 +6,15 @@ jobs:
   static-url:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+
       - name: Test Observatory
-        uses: simonireilly/observatory-github-action@v0.0.1
+        uses: simonireilly/observatory-github-action@v0.1.0
         id: observatory
         with:
           web_host: https://hungry-borg-990e06.netlify.app
+
       - name: Create commit comment
         uses: peter-evans/commit-comment@v1
         with:
-          body: '# Branch PR ${{ steps.observatory.outputs.observatory-report }}'
+          body: "# Branch PR ${{ steps.observatory.outputs.observatory-report }}"
