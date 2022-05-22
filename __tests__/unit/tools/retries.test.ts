@@ -8,6 +8,7 @@ jest.setTimeout(20000);
 describe("retries module", () => {
   describe("safeMillisecondExponent", () => {
     const cases = [
+      [1, 1600],
       [2, 2560],
       [3, 4096],
       [4, 6553],

@@ -48,6 +48,6 @@
     "pub:latest": "release-it --no-npm.publish",
     "readme": "embedme README.md",
     "test": "jest unit",
-    "test: integration": "jest --runInBand integration"
+    "test:integration": "jest --runInBand integration"
   }
 }
