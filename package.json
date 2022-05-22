@@ -4,15 +4,15 @@
   "version": "0.1.0",
   "author": "",
   "dependencies": {
-    "@actions/core": "1.6.0",
-    "@actions/exec": "1.1.0"
+    "@actions/core": "1.8.2",
+    "@actions/exec": "1.1.1"
   },
   "devDependencies": {
     "@types/jest": "27.0.3",
     "@types/node": "16.11.14",
-    "@typescript-eslint/eslint-plugin": "5.7.0",
-    "@typescript-eslint/parser": "5.7.0",
-    "@vercel/ncc": "0.33.0",
+    "@typescript-eslint/eslint-plugin": "5.25.0",
+    "@typescript-eslint/parser": "5.25.0",
+    "@vercel/ncc": "0.33.4",
     "embedme": "1.22.0",
     "eslint": "8.4.1",
     "eslint-plugin-github": "4.3.5",
@@ -22,6 +22,7 @@
     "jest-circus": "27.4.5",
     "js-yaml": "4.1.0",
     "release-it": "14.11.8",
+    "syncpack": "^7.2.1",
     "ts-jest": "27.1.2",
     "typescript": "4.5.4"
   },
