@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`run Handles multiple input formats with host name 1`] = `
+"
+## Observatory Results [github.com](https://github.com): _125 of 100_
+
+See the full report: https://observatory.mozilla.org/analyze/github.com
+
+### Highlights
+
+Passed | Score | Description
+--- | --- | ---
+:green_circle: | 5 | All cookies use the Secure flag, session cookies use the HttpOnly flag, and cross-origin restrictions are in place via the SameSite flag
+:green_circle: | 5 | Referrer-Policy header set to \\"no-referrer\\", \\"same-origin\\", \\"strict-origin\\" or \\"strict-origin-when-cross-origin\\"
+:green_circle: | 5 | Preloaded via the HTTP Strict Transport Security (HSTS) preloading process
+:green_circle: | 5 | Subresource Integrity (SRI) is implemented and all scripts are loaded securely
+:green_circle: | 5 | X-Frame-Options (XFO) implemented via the CSP frame-ancestors directive
+  "
+`;
+
+exports[`run Handles multiple input formats with url 1`] = `
+"
+## Observatory Results [example.com](https://example.com): _0 of 100_
+
+See the full report: https://observatory.mozilla.org/analyze/example.com
+
+### Highlights
+
+Passed | Score | Description
+--- | --- | ---
+:red_circle: | -25 | Content Security Policy (CSP) header not implemented
+:red_circle: | -20 | Does not redirect to an HTTPS site
+:red_circle: | -20 | HTTP Strict Transport Security (HSTS) header not implemented
+:red_circle: | -5 | X-Content-Type-Options header not implemented
+:red_circle: | -20 | X-Frame-Options (XFO) header not implemented
+:red_circle: | -10 | X-XSS-Protection header not implemented
+  "
+`;
