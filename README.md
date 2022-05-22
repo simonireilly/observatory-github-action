@@ -18,22 +18,24 @@ Run the [Mozilla Observatory](https://observatory.mozilla.org/) in CI/CD for any
 This action is a light wrapper around [mozilla/observatory-cli](https://github.com/mozilla/observatory-cli) that returns a markdown string.
 
 It can be used in conjunction with other comment based actions to add PR comments
+
 ## Setup
 
 Add the action as a step in your github actions:
 
->.github/workflows/example.yml
+> .github/workflows/example.yml
+
 ```yaml
-      - name: Observatory Github Action
-        id: observatory
-        uses: simonireilly/observatory-github-action@v0.0.1
-        with:
-          web_host: https://example.com
-      # Use any comment plugin that you like, so long as it supports a string input
-      - name: Create commit comment
-        uses: peter-evans/commit-comment@v1
-        with:
-          body: ${{ steps.observatory.outputs.observatory-report }}
+- name: Observatory Github Action
+  id: observatory
+  uses: simonireilly/observatory-github-action@v0.0.1
+  with:
+    web_host: https://example.com
+# Use any comment plugin that you like, so long as it supports a string input
+- name: Create commit comment
+  uses: peter-evans/commit-comment@v1
+  with:
+    body: ${{ steps.observatory.outputs.observatory-report }}
 ```
 
 ## Output
@@ -69,10 +71,7 @@ jobs:
         uses: peter-evans/commit-comment@v1
         with:
           body: "# Branch PR ${{ steps.observatory.outputs.observatory-report }}"
-
 ```
-
-*Output*
 
 ![GitHub comment showing output from observatory report](.readme/static-url.png)
 
@@ -102,10 +101,7 @@ jobs:
         uses: peter-evans/commit-comment@v1
         with:
           body: "# Deployment Status _${{ github.event.deployment_status.state }}_ ${{ steps.observatory.outputs.observatory-report }}"
-
 ```
-
-*Output*
 
 ![GitHub comment showing output from observatory report](.readme/deployment-status.png)
 
@@ -117,13 +113,13 @@ Fork the repository and create a MR against the upstream.
 
 To release, with master branch checked out run:
 
-```
+```bash
 yarn pub:beta
 ```
 
 If this is to be a latest release run:
 
-```
+```bash
 yarn pub:latest
 ```
 
