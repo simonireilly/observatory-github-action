@@ -43,7 +43,7 @@
     "lint": "eslint src/**/*.ts",
     "lint-fix": "npm run lint --fix",
     "observatory-cli": "observatory",
-    "package": "ncc build --source-map --license licenses.txt",
+    "package": "ncc build --minify --license LICENSE",
     "prepare": "husky install",
     "pub:beta": "release-it --preRelease=beta --no-npm.publish",
     "pub:latest": "release-it --no-npm.publish",
