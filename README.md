@@ -49,7 +49,7 @@ The github workflows folder contain detailed examples
 ```yaml
 # examples/workflows/static-url.yml
 
-name: 'branch'
+name: "branch"
 on:
   pull_request:
 
@@ -57,16 +57,18 @@ jobs:
   static-url:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+
       - name: Test Observatory
-        uses: simonireilly/observatory-github-action@v0.0.1
+        uses: simonireilly/observatory-github-action@v0.1.0
         id: observatory
         with:
           web_host: https://hungry-borg-990e06.netlify.app
+
       - name: Create commit comment
         uses: peter-evans/commit-comment@v1
         with:
-          body: '# Branch PR ${{ steps.observatory.outputs.observatory-report }}'
+          body: "# Branch PR ${{ steps.observatory.outputs.observatory-report }}"
 
 ```
 
@@ -81,7 +83,7 @@ This method will work for Preview deploys that use the GitHub deployments API. I
 ```yaml
 # examples/workflows/deployment_status.yml
 
-name: 'deployment-status'
+name: "deployment-status"
 on:
   deployment_status:
 
@@ -90,14 +92,16 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.deployment_status.state == 'success'
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+
       - name: Test Observatory
-        uses: simonireilly/observatory-github-action@v0.0.1
+        uses: simonireilly/observatory-github-action@v0.1.0
         id: observatory
+
       - name: Create commit comment
         uses: peter-evans/commit-comment@v1
         with:
-          body: '# Deployment Status _${{ github.event.deployment_status.state }}_ ${{ steps.observatory.outputs.observatory-report }}'
+          body: "# Deployment Status _${{ github.event.deployment_status.state }}_ ${{ steps.observatory.outputs.observatory-report }}"
 
 ```
 
