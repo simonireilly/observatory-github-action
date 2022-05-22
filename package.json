@@ -1,7 +1,7 @@
 {
   "name": "observatory-github-action",
   "description": "Observatory CLI runner for github actions",
-  "version": "0.1.1-beta.0",
+  "version": "0.1.1-beta.1",
   "author": "",
   "dependencies": {
     "@actions/core": "1.8.2",
