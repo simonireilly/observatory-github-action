@@ -2,10 +2,10 @@
 
 Run the [Mozilla Observatory](https://observatory.mozilla.org/) in CI/CD for any website.
 
+![GitHub comment showing output from observatory report](.readme/example.png)
+
 - [Observatory GitHub Action](#observatory-github-action)
   - [About](#about)
-  - [Setup](#setup)
-  - [Output](#output)
   - [Detailed Examples](#detailed-examples)
     - [Static URL on Pull Requests](#static-url-on-pull-requests)
     - [Deployment Status for Preview Environments](#deployment-status-for-preview-environments)
@@ -17,30 +17,7 @@ Run the [Mozilla Observatory](https://observatory.mozilla.org/) in CI/CD for any
 
 This action is a light wrapper around [mozilla/observatory-cli](https://github.com/mozilla/observatory-cli) that returns a markdown string.
 
-It can be used in conjunction with other comment based actions to add PR comments
-
-## Setup
-
-Add the action as a step in your github actions:
-
-> .github/workflows/example.yml
-
-```yaml
-- name: Observatory Github Action
-  id: observatory
-  uses: simonireilly/observatory-github-action@v0.0.1
-  with:
-    web_host: https://example.com
-# Use any comment plugin that you like, so long as it supports a string input
-- name: Create commit comment
-  uses: peter-evans/commit-comment@v1
-  with:
-    body: ${{ steps.observatory.outputs.observatory-report }}
-```
-
-## Output
-
-![GitHub comment showing output from observatory report](.readme/example.png)
+It can be used in conjunction with other comment based actions to add PR comments.
 
 ## Detailed Examples
 
