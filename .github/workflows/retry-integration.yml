@@ -1,4 +1,4 @@
-name: "branch"
+name: "retry"
 on:
   pull_request:
 
