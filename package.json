@@ -16,7 +16,7 @@
     "embedme": "1.22.0",
     "eslint": "8.16.0",
     "eslint-plugin-github": "4.3.5",
-    "eslint-plugin-jest": "25.3.0",
+    "eslint-plugin-jest": "26.2.2",
     "husky": "^7.0.0",
     "jest": "27.4.5",
     "js-yaml": "4.1.0",
