@@ -3,10 +3,6 @@ import { runObservatory } from './observatory-runner';
 import * as core from '@actions/core';
 import { generateReportMeta, renderMarkdownReport } from './report-generator';
 
-const webHost = (): string => {
-  return core.getInput('web_host') || 'github.com';
-};
-
 export async function run(sanitizedHostName: string): Promise<number> {
   const { result, error } = await runObservatory(sanitizedHostName);
 

@@ -5,6 +5,7 @@ const main = async () => {
   try {
     const scoreRequired = scoreThreshold();
     const host = webHost();
+
     const score = await run(host);
 
     if (score < scoreRequired) {
