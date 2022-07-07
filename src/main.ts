@@ -22,8 +22,6 @@ const main = async () => {
   }
 };
 
-main();
-
 // Private
 
 const scoreThreshold = (): number => {
@@ -50,3 +48,5 @@ const webHost = (): string => {
 
   return sanitizedHostName;
 };
+
+main();
