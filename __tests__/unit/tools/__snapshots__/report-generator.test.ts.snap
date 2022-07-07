@@ -1,51 +1,55 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`jsonReportToMarkdown Creates a table for the results with json 1`] = `
-"
-## Observatory Results [github.com](https://github.com): _0 of 100_
-
-See the full report: https://observatory.mozilla.org/analyze/github.com
-
-### Highlights
-
-Passed | Score | Description
---- | --- | ---
-:red_circle: | -25 | Content Security Policy (CSP) header not implemented
-:green_circle: | 0 | Contribute.json isn't required on websites that don't belong to Mozilla
-:green_circle: | 0 | No cookies detected
-:green_circle: | 0 | Content is not visible via cross-origin resource sharing (CORS) files or headers
-:green_circle: | 0 | HTTP Public Key Pinning (HPKP) header not implemented
-:red_circle: | -20 | Does not redirect to an HTTPS site
-:green_circle: | 0 | Referrer-Policy header not implemented
-:red_circle: | -20 | HTTP Strict Transport Security (HSTS) header not implemented
-:green_circle: | 0 | Subresource Integrity (SRI) is not needed since site contains no script tags
-:red_circle: | -5 | X-Content-Type-Options header not implemented
-:red_circle: | -20 | X-Frame-Options (XFO) header not implemented
-:red_circle: | -10 | X-XSS-Protection header not implemented
-  "
+Object {
+  "resultRows": Array [
+    ":red_circle: | -25 | Content Security Policy (CSP) header not implemented",
+    ":green_circle: | 0 | Contribute.json isn't required on websites that don't belong to Mozilla",
+    ":green_circle: | 0 | No cookies detected",
+    ":green_circle: | 0 | Content is not visible via cross-origin resource sharing (CORS) files or headers",
+    ":green_circle: | 0 | HTTP Public Key Pinning (HPKP) header not implemented",
+    ":red_circle: | -20 | Does not redirect to an HTTPS site",
+    ":green_circle: | 0 | Referrer-Policy header not implemented",
+    ":red_circle: | -20 | HTTP Strict Transport Security (HSTS) header not implemented",
+    ":green_circle: | 0 | Subresource Integrity (SRI) is not needed since site contains no script tags",
+    ":red_circle: | -5 | X-Content-Type-Options header not implemented",
+    ":red_circle: | -20 | X-Frame-Options (XFO) header not implemented",
+    ":red_circle: | -10 | X-XSS-Protection header not implemented",
+  ],
+  "score": 0,
+}
 `;
 
 exports[`jsonReportToMarkdown Creates a table for the results with text 1`] = `
+Object {
+  "resultRows": Array [
+    ":red_circle: | -25 | Content Security Policy (CSP) header not implemented",
+    ":green_circle: | 0 | Contribute.json isn't required on websites that don't belong to Mozilla",
+    ":green_circle: | 0 | No cookies detected",
+    ":green_circle: | 0 | Content is not visible via cross-origin resource sharing (CORS) files or headers",
+    ":green_circle: | 0 | HTTP Public Key Pinning (HPKP) header not implemented",
+    ":red_circle: | -20 | Does not redirect to an HTTPS site",
+    ":green_circle: | 0 | Referrer-Policy header not implemented",
+    ":red_circle: | -20 | HTTP Strict Transport Security (HSTS) header not implemented",
+    ":green_circle: | 0 | Subresource Integrity (SRI) is not needed since site contains no script tags",
+    ":red_circle: | -5 | X-Content-Type-Options header not implemented",
+    ":red_circle: | -20 | X-Frame-Options (XFO) header not implemented",
+    ":red_circle: | -10 | X-XSS-Protection header not implemented",
+  ],
+  "score": 0,
+}
+`;
+
+exports[`renderMarkdownReport returns the markdown representation of report metadata 1`] = `
 "
-## Observatory Results [github.com](https://github.com): _0 of 100_
+  ## Observatory Results [https://example.com](https://https://example.com): _10 of 100_
 
-See the full report: https://observatory.mozilla.org/analyze/github.com
+  See the full report: https://observatory.mozilla.org/analyze/https://example.com
 
-### Highlights
+  ### Highlights
 
-Passed | Score | Description
---- | --- | ---
-:red_circle: | -25 | Content Security Policy (CSP) header not implemented
-:green_circle: | 0 | Contribute.json isn't required on websites that don't belong to Mozilla
-:green_circle: | 0 | No cookies detected
-:green_circle: | 0 | Content is not visible via cross-origin resource sharing (CORS) files or headers
-:green_circle: | 0 | HTTP Public Key Pinning (HPKP) header not implemented
-:red_circle: | -20 | Does not redirect to an HTTPS site
-:green_circle: | 0 | Referrer-Policy header not implemented
-:red_circle: | -20 | HTTP Strict Transport Security (HSTS) header not implemented
-:green_circle: | 0 | Subresource Integrity (SRI) is not needed since site contains no script tags
-:red_circle: | -5 | X-Content-Type-Options header not implemented
-:red_circle: | -20 | X-Frame-Options (XFO) header not implemented
-:red_circle: | -10 | X-XSS-Protection header not implemented
-  "
+  Passed | Score | Description
+  --- | --- | ---
+  row 1 | thing | part
+    "
 `;

@@ -15,10 +15,14 @@ interface Report {
   };
 }
 
-export function jsonReportToMarkdown(
-  jsonReport: Report | string,
-  sanitizedHostName: string
-): string {
+interface ReportMetaData {
+  score: number;
+  resultRows: string[];
+}
+
+export const generateReportMeta = (
+  jsonReport: Report | string
+): ReportMetaData => {
   let result;
 
   if (typeof jsonReport === 'string') {
@@ -27,7 +31,7 @@ export function jsonReportToMarkdown(
       result = JSON.parse(jsonStructure) as Report;
     } else {
       core.setFailed('Result is empty');
-      return '';
+      return { score: 0, resultRows: [''] };
     }
   } else {
     result = jsonReport;
@@ -53,15 +57,28 @@ export function jsonReportToMarkdown(
     resultRows.push(message);
   }
 
+  return {
+    score,
+    resultRows,
+  };
+};
+
+export const renderMarkdownReport = ({
+  sanitizedHostName,
+  score,
+  resultRows,
+}: {
+  sanitizedHostName: string;
+} & ReportMetaData): string => {
   return `
-## Observatory Results [${sanitizedHostName}](https://${sanitizedHostName}): _${score} of 100_
+  ## Observatory Results [${sanitizedHostName}](https://${sanitizedHostName}): _${score} of 100_
 
-See the full report: https://observatory.mozilla.org/analyze/${sanitizedHostName}
+  See the full report: https://observatory.mozilla.org/analyze/${sanitizedHostName}
 
-### Highlights
+  ### Highlights
 
-Passed | Score | Description
---- | --- | ---
-${resultRows.join('\n')}
-  `;
-}
+  Passed | Score | Description
+  --- | --- | ---
+  ${resultRows.join('\n')}
+    `;
+};
