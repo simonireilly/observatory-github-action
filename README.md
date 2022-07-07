@@ -72,13 +72,14 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Test Observatory
-        uses: simonireilly/observatory-github-action@v0.1.0
+        uses: simonireilly/observatory-github-action@v0.1.1
         id: observatory
 
       - name: Create commit comment
         uses: peter-evans/commit-comment@v1
         with:
           body: "# Deployment Status _${{ github.event.deployment_status.state }}_ ${{ steps.observatory.outputs.observatory-report }}"
+
 ```
 
 ![GitHub comment showing output from observatory report](.readme/deployment-status.png)
