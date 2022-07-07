@@ -39,7 +39,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Test Observatory
-        uses: simonireilly/observatory-github-action@v0.1.0
+        uses: simonireilly/observatory-github-action@v0.1.1
         id: observatory
         with:
           web_host: https://hungry-borg-990e06.netlify.app
@@ -48,6 +48,7 @@ jobs:
         uses: peter-evans/commit-comment@v1
         with:
           body: "# Branch PR ${{ steps.observatory.outputs.observatory-report }}"
+
 ```
 
 ![GitHub comment showing output from observatory report](.readme/static-url.png)
