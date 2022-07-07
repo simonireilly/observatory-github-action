@@ -12,6 +12,10 @@ jobs:
       - name: Test Observatory
         uses: simonireilly/observatory-github-action@v0.1.1
         id: observatory
+        with:
+          web_host: https://hungry-borg-990e06.netlify.app
+          # Specify required pass score
+          score_threshold: 100
 
       - name: Create commit comment
         uses: peter-evans/commit-comment@v1
