@@ -12,7 +12,7 @@ jobs:
         uses: ./
         with:
           web_host: https://observatory-github-action.vercel.app
-          score_threshold: 120
+          score_threshold: 40
         id: observatory
 
       - name: Create commit comment

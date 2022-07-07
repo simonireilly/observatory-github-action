@@ -10,7 +10,7 @@ const main = async () => {
 
     if (score < scoreRequired) {
       core.setFailed(
-        `Failed on score of '${score}', score must be ${scoreRequired} or greater`
+        `Failed on score of '${score}', score must be '${scoreRequired}' or greater`
       );
     }
   } catch (error) {
