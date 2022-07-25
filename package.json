@@ -21,7 +21,7 @@
     "husky": "^7.0.0",
     "jest": "27.4.5",
     "js-yaml": "4.1.0",
-    "release-it": "14.11.8",
+    "release-it": "15.1.4",
     "syncpack": "^7.2.1",
     "ts-jest": "27.1.2",
     "typescript": "4.5.4"
