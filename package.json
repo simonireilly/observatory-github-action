@@ -16,7 +16,7 @@
     "@vercel/ncc": "0.33.4",
     "embedme": "1.22.0",
     "eslint": "8.16.0",
-    "eslint-plugin-github": "4.3.5",
+    "eslint-plugin-github": "4.3.7",
     "eslint-plugin-jest": "25.3.0",
     "husky": "^7.0.0",
     "jest": "27.4.5",
