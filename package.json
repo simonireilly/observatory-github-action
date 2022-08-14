@@ -5,7 +5,8 @@
   "author": "",
   "dependencies": {
     "@actions/core": "1.9.1",
-    "@actions/exec": "1.1.1"
+    "@actions/exec": "1.1.1",
+    "observatory-cli": "^0.7.1"
   },
   "devDependencies": {
     "@tsconfig/node18": "^1.0.1",

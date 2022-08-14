@@ -1,7 +1,7 @@
 // Handlers spawning a process that runs the observatory CLI
-import * as core from '@actions/core';
-import * as exec from '@actions/exec';
-import { runWithRetry } from './retries';
+import * as core from "@actions/core";
+import * as exec from "@actions/exec";
+import { runWithRetry } from "./retries";
 
 export async function runObservatory(
   sanitizedHostName: string,
@@ -11,8 +11,8 @@ export async function runObservatory(
   error?: string;
 }> {
   // Setup scoped streams for piping into all attempts
-  let result = '';
-  let error = '';
+  let result = "";
+  let error = "";
 
   const options = {
     listeners: {},
@@ -45,7 +45,7 @@ const handleExhaustedRetries = async (e: unknown) => {
   if (e instanceof Error) {
     core.setFailed(e.message);
   } else {
-    core.setFailed('An unknown error occurred');
+    core.setFailed("An unknown error occurred");
   }
 };
 
@@ -54,8 +54,15 @@ const runTool = async (
   options: exec.ExecOptions
 ) => {
   return exec.exec(
-    'npx',
-    ['observatory-cli', sanitizedHostName, '--format=json', '--attempts=30'],
+    "node",
+    [
+      "node_modules",
+      "observatory-cli",
+      "index.js",
+      sanitizedHostName,
+      "--format=json",
+      "--attempts=30",
+    ],
     options
   );
 };
