@@ -41,8 +41,10 @@ export const summarizeJob = async (
   sanitizedHostName: string
 ) => {
   await core.summary
-    .addHeading(
-      `Observatory Results [${sanitizedHostName}](https://${sanitizedHostName}): _${score} of 100_`
+    .addHeading(`Observatory Results: ${score} of 100`)
+    .addLink(
+      `Website scanned: ${sanitizedHostName}`,
+      `https://${sanitizedHostName}`
     )
     .addTable([
       [
