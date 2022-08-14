@@ -1,23 +1,30 @@
-import { jsonReportToMarkdown } from "../../../src/tools/report-generator";
+import {
+  jsonReportToMarkdown,
+  prepareReportData,
+} from "../../../src/tools/report-generator";
 
 import jsonReport from "../fixtures/json-observatory-report.json";
 import * as fs from "fs";
 import * as path from "path";
 
-describe("jsonReportToMarkdown", () => {
+describe("processes a json file to a results object", () => {
   it("Creates a table for the results with json", () => {
-    const markdown = jsonReportToMarkdown(jsonReport, "github.com");
+    const markdown = prepareReportData(jsonReport);
 
-    expect(markdown).toMatchSnapshot();
+    const [resultRows, score] = prepareReportData(jsonReport);
+
+    expect(score).toEqual(0);
+    expect(resultRows).toMatchSnapshot();
   });
-  it("Creates a table for the results with text", () => {
+  it("processes a text file to a results object", () => {
     const jsonReport = fs.readFileSync(
       path.join(__dirname, "../fixtures/json-observatory-report.txt"),
       "utf8"
     );
 
-    const markdown = jsonReportToMarkdown(jsonReport, "github.com");
+    const [resultRows, score] = prepareReportData(jsonReport);
 
-    expect(markdown).toMatchSnapshot();
+    expect(score).toEqual(0);
+    expect(resultRows).toMatchSnapshot();
   });
 });
