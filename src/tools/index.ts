@@ -1,10 +1,14 @@
 // Handles configuration, and calling out to the runner
-import { runObservatory } from './observatory-runner';
-import * as core from '@actions/core';
-import { jsonReportToMarkdown } from './report-generator';
+import { runObservatory } from "./observatory-runner";
+import * as core from "@actions/core";
+import {
+  jsonReportToMarkdown,
+  prepareReportData,
+  summarizeJob,
+} from "./report-generator";
 
 const webHost = (): string => {
-  return core.getInput('web_host') || 'github.com';
+  return core.getInput("web_host") || "github.com";
 };
 
 export async function run(): Promise<string> {
@@ -13,11 +17,11 @@ export async function run(): Promise<string> {
   try {
     sanitizedHostName = new URL(webHost()).host;
   } catch (e: unknown) {
-    core.warning('This is not a valid URL, trying as given string');
+    core.warning("This is not a valid URL, trying as given string");
     if (e instanceof Error) {
       core.error(e);
     } else {
-      core.setFailed('An unknown error occurred');
+      core.setFailed("An unknown error occurred");
     }
   }
 
@@ -29,8 +33,10 @@ export async function run(): Promise<string> {
 
   core.debug(result);
 
-  const markdown = jsonReportToMarkdown(result, sanitizedHostName);
+  const [resultRows, score] = prepareReportData(result);
+  const markdown = jsonReportToMarkdown(resultRows, score, sanitizedHostName);
+  await summarizeJob(resultRows, score, sanitizedHostName);
 
-  core.setOutput('observatory-report', markdown);
+  core.setOutput("observatory-report", markdown);
   return markdown;
 }
