@@ -18,5 +18,3 @@ jobs:
           yarn all
       - run: |
           yarn test
-      - run: |
-          yarn test:integration
