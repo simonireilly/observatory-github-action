@@ -1,11 +1,8 @@
-import {
-  jsonReportToMarkdown,
-  prepareReportData,
-} from "../../../src/tools/report-generator";
+import { prepareReportData } from "../../../src/tools/report-generator";
 
-import jsonReport from "../fixtures/json-observatory-report.json";
 import * as fs from "fs";
 import * as path from "path";
+import jsonReport from "../fixtures/json-observatory-report.json";
 
 describe("processes a json file to a results object", () => {
   it("Creates a table for the results with json", () => {
