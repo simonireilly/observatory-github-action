@@ -39,7 +39,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Test Observatory
-        uses: simonireilly/observatory-github-action@v0.1.0
+        uses: simonireilly/observatory-github-action@v0.1.3
         id: observatory
         with:
           web_host: https://hungry-borg-990e06.netlify.app
@@ -71,7 +71,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Test Observatory
-        uses: simonireilly/observatory-github-action@v0.1.0
+        uses: simonireilly/observatory-github-action@v0.1.3
         id: observatory
 
       - name: Create commit comment
