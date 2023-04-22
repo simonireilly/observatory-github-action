@@ -1,63 +1,63 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`processes a json file to a results object Creates a table for the results with json 1`] = `
-Array [
-  Array [
+[
+  [
     ":red_circle:",
     "-25",
     "Content Security Policy (CSP) header not implemented",
   ],
-  Array [
+  [
     ":green_circle:",
     "0",
     "Contribute.json isn't required on websites that don't belong to Mozilla",
   ],
-  Array [
+  [
     ":green_circle:",
     "0",
     "No cookies detected",
   ],
-  Array [
+  [
     ":green_circle:",
     "0",
     "Content is not visible via cross-origin resource sharing (CORS) files or headers",
   ],
-  Array [
+  [
     ":green_circle:",
     "0",
     "HTTP Public Key Pinning (HPKP) header not implemented",
   ],
-  Array [
+  [
     ":red_circle:",
     "-20",
     "Does not redirect to an HTTPS site",
   ],
-  Array [
+  [
     ":green_circle:",
     "0",
     "Referrer-Policy header not implemented",
   ],
-  Array [
+  [
     ":red_circle:",
     "-20",
     "HTTP Strict Transport Security (HSTS) header not implemented",
   ],
-  Array [
+  [
     ":green_circle:",
     "0",
     "Subresource Integrity (SRI) is not needed since site contains no script tags",
   ],
-  Array [
+  [
     ":red_circle:",
     "-5",
     "X-Content-Type-Options header not implemented",
   ],
-  Array [
+  [
     ":red_circle:",
     "-20",
     "X-Frame-Options (XFO) header not implemented",
   ],
-  Array [
+  [
     ":red_circle:",
     "-10",
     "X-XSS-Protection header not implemented",
@@ -66,63 +66,63 @@ Array [
 `;
 
 exports[`processes a json file to a results object processes a text file to a results object 1`] = `
-Array [
-  Array [
+[
+  [
     ":red_circle:",
     "-25",
     "Content Security Policy (CSP) header not implemented",
   ],
-  Array [
+  [
     ":green_circle:",
     "0",
     "Contribute.json isn't required on websites that don't belong to Mozilla",
   ],
-  Array [
+  [
     ":green_circle:",
     "0",
     "No cookies detected",
   ],
-  Array [
+  [
     ":green_circle:",
     "0",
     "Content is not visible via cross-origin resource sharing (CORS) files or headers",
   ],
-  Array [
+  [
     ":green_circle:",
     "0",
     "HTTP Public Key Pinning (HPKP) header not implemented",
   ],
-  Array [
+  [
     ":red_circle:",
     "-20",
     "Does not redirect to an HTTPS site",
   ],
-  Array [
+  [
     ":green_circle:",
     "0",
     "Referrer-Policy header not implemented",
   ],
-  Array [
+  [
     ":red_circle:",
     "-20",
     "HTTP Strict Transport Security (HSTS) header not implemented",
   ],
-  Array [
+  [
     ":green_circle:",
     "0",
     "Subresource Integrity (SRI) is not needed since site contains no script tags",
   ],
-  Array [
+  [
     ":red_circle:",
     "-5",
     "X-Content-Type-Options header not implemented",
   ],
-  Array [
+  [
     ":red_circle:",
     "-20",
     "X-Frame-Options (XFO) header not implemented",
   ],
-  Array [
+  [
     ":red_circle:",
     "-10",
     "X-XSS-Protection header not implemented",
